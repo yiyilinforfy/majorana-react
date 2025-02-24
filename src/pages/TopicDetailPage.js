@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import Footer from "../components/Footer";
 import axios from "axios";
 import {
   Box,
@@ -103,8 +104,9 @@ const TopicDetailPage = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 6 }}>
-      <Paper elevation={0} sx={{ borderRadius: 2, overflow: 'hidden', bgcolor: '#f8f9fa' }}>
+    <div>
+      <Container maxWidth="lg" sx={{ py: 6 }}>
+       <Paper elevation={0} sx={{ borderRadius: 2, overflow: 'hidden', bgcolor: '#f8f9fa' }}>
         <Box sx={{ p: 4, bgcolor: '#fff' }}>
           <Box display="flex" alignItems="center" gap={1} mb={3}>
             <ScienceIcon sx={{ color: 'primary.main' }} />
@@ -296,6 +298,9 @@ const TopicDetailPage = () => {
         </Box>
       </Paper>
     </Container>
+    <Footer />
+  </div>
+   
   );
 };
 

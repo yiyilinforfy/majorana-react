@@ -2,7 +2,7 @@
  * @Author: linyi 1195190035@qq.com
  * @Date: 2025-02-21 19:45:17
  * @LastEditors: linyi 1195190035@qq.com
- * @LastEditTime: 2025-02-23 20:59:08
+ * @LastEditTime: 2025-02-24 22:48:58
  * @FilePath: \majorana-react\src\App.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -15,7 +15,8 @@ import ForumPage from "./pages/ForumPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import ResourcesPage from "./pages/ResourcesPage";
-import TopicDetailPage from './pages/TopicDetailPage';
+import TopicDetailPage from "./pages/TopicDetailPage";
+import NotFoundPage from "./pages/NotFoundPage"; // 导入NotFoundPage
 import { AuthProvider } from "./contexts/AuthContext";
 import "./index.css";
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="/topic/:tid" element={<TopicDetailPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="*" element={<NotFoundPage />} /> {/* 添加通配符路由 */}
           </Routes>
         </div>
       </Router>

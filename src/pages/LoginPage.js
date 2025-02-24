@@ -2,12 +2,13 @@
  * @Author: linyi 1195190035@qq.com
  * @Date: 2025-02-23 20:44:54
  * @LastEditors: linyi 1195190035@qq.com
- * @LastEditTime: 2025-02-23 22:19:07
+ * @LastEditTime: 2025-02-24 22:25:54
  * @FilePath: \majorana\majorana-react\src\pages\Login.js
  * @Description: 登录和注册页面，已适配后端 Express API，仅使用 email
  */
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -169,8 +170,10 @@ function Login() {
         >
           {isLogin ? "注册" : "登录"}
         </button>
-      </p>
+      </p>    
+      <Footer/>
     </div>
+
   );
 }
 

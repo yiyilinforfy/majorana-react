@@ -1,127 +1,72 @@
-import React, { useState, useEffect } from "react"; // 添加 useState, useEffect
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import axios from "axios";
+import React from 'react';
+import { Link } from 'react-router-dom'; // 移除 useState, useEffect, useAuth, axios, useNavigate，因为不需要登录逻辑
 
 function Header() {
-  const { currentUser, logout } = useAuth();
-  const navigate = useNavigate();
-  const [csrfToken, setCsrfToken] = useState(""); // 添加 CSRF token 状态
-
-  // 获取 CSRF Token
-  useEffect(() => {
-    const fetchCsrfToken = async () => {
-      try {
-        await axios.get("http://localhost:3000/api/auth/session", {
-          withCredentials: true,
-        });
-        const token = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("XSRF-TOKEN="))
-          ?.split("=")[1];
-        setCsrfToken(token || "");
-      } catch (err) {
-        console.error("获取 CSRF token 失败:", err);
-      }
-    };
-    fetchCsrfToken();
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      // 调用后端登出接口，携带 CSRF token
-      await axios.post(
-        "http://localhost:3000/api/auth/logout",
-        {},
-        {
-          headers: {
-            "X-CSRF-TOKEN": csrfToken, // 添加 CSRF token
-          },
-          withCredentials: true,
-        }
-      );
-      logout(); // 更新 AuthContext 状态
-      navigate("/login"); // 登出后跳转到登录页
-    } catch (err) {
-      console.error("登出失败:", err);
-      alert("登出失败，请稍后重试");
-    }
-  };
-
   return (
-    <nav style={{ background: "#1a237e", padding: "15px" }}>
-      <ul
-        style={{
-          display: "flex",
-          gap: "20px",
-          listStyle: "none",
-          margin: 0,
-          alignItems: "center",
-        }}
-      >
-        <li>
-          <Link to="/" style={{ color: "white", textDecoration: "none" }}>
-            首页
+    <nav style={styles.nav}>
+      <ul style={styles.navList}>
+        <li style={styles.navItem}>
+          <Link to="/" style={styles.link}>
+            HOME
           </Link>
         </li>
-        <li>
-          <Link to="/news" style={{ color: "white", textDecoration: "none" }}>
-            新闻
+        <li style={styles.navItem}>
+          <Link to="/news" style={styles.link}>
+            NEWS
           </Link>
         </li>
-        <li>
-          <Link to="/forum" style={{ color: "white", textDecoration: "none" }}>
-            论坛
+        <li style={styles.navItem}>
+          <Link to="/forum" style={styles.link}>
+            FORUM
           </Link>
         </li>
-        <li>
-          <Link
-            to="/resources"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            资源
+        <li style={styles.navItem}>
+          <Link to="/resources" style={styles.link}>
+            RESOURCES
           </Link>
         </li>
-        <li style={{ marginLeft: "auto" }}>
-          {currentUser ? (
-            <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-              <Link
-                to="/profile"
-                style={{ color: "white", textDecoration: "none" }}
-              >
-                {currentUser.email}
-              </Link>
-              <button
-                onClick={handleLogout}
-                style={{
-                  background: "transparent",
-                  border: "1px solid white",
-                  color: "white",
-                  padding: "5px 10px",
-                  cursor: "pointer",
-                  borderRadius: "4px",
-                  transition: "background 0.3s",
-                }}
-                onMouseOver={(e) =>
-                  (e.target.style.background = "rgba(255,255,255,0.2)")
-                }
-                onMouseOut={(e) => (e.target.style.background = "transparent")}
-              >
-                退出
-              </button>
-            </div>
-          ) : (
-            <Link
-              to="/login"
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              登录/注册
-            </Link>
-          )}
+        <li style={styles.navItem}>
+          <Link to="/contact" style={styles.link}>
+            CONTACT
+          </Link>
         </li>
       </ul>
     </nav>
   );
 }
+
+// 内联样式
+const styles = {
+  nav: {
+    backgroundColor: '#000', // 黑色背景，与 UI 图一致
+    padding: '10px 0', // 上下 10px，左右 0
+    position: 'sticky',
+    top: '0',
+    zIndex: '1000', // 确保导航固定在顶部
+  },
+  navList: {
+    listStyle: 'none',
+    display: 'flex',
+    justifyContent: 'flex-end', // 右对齐，与 UI 图匹配
+    margin: '0',
+    padding: '0 20px', // 左右间距 20px
+    alignItems: 'center',
+  },
+  navItem: {
+    margin: '0 15px', // 导航项间距
+    fontSize: '14px', // 文字大小
+    cursor: 'pointer',
+  },
+  link: {
+    color: '#fff', // 白色文字
+    textDecoration: 'none', // 无下划线
+    textTransform: 'uppercase', // 大写，与 UI 图一致
+    fontFamily: "'Helvetica Neue', Arial, sans-serif", // 现代无衬线字体
+    transition: 'color 0.3s', // 悬停动画
+  },
+  linkHover: { // 悬停效果
+    color: '#4a90e2', // 蓝色高亮，与 UI 图按钮颜色一致
+  },
+};
 
 export default Header;

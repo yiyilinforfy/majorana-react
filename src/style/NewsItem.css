@@ -1,0 +1,100 @@
+.news-item {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.news-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  height: 200px; /* 固定卡片高度 */
+}
+
+.news-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.image-container {
+  flex: 0 0 200px;
+  height: 200px; /* 与卡片高度相同 */
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  flex: 1;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* 防止内容溢出 */
+}
+
+.title {
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 限制标题最多两行 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.title:hover {
+  color: #1890ff;
+}
+
+.description {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 限制描述最多三行 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.meta {
+  color: #999;
+  font-size: 0.8rem;
+  display: flex;
+  gap: 15px;
+  margin-top: auto; /* 将meta信息推到底部 */
+}
+
+.author, .date, .categories {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap; /* 防止meta信息换行 */
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .news-card {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .image-container {
+    flex: none;
+    height: 200px;
+    width: 100%;
+  }
+
+  .content {
+    padding: 12px;
+  }
+}

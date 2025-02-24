@@ -16,7 +16,9 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Box
+  Box,
+  Container,
+  Divider
 } from '@mui/material';
 import { 
   Add as AddIcon,
@@ -81,143 +83,203 @@ const ForumPage = () => {
   );
 
   return (
-    <Box sx={{ p: 3, backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={3}
-      >
-        <Typography variant="h4" component="h1" sx={{ fontWeight: "bold" }}>
-          Latest Posts
-        </Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleOpenDialog}
-          sx={{ backgroundColor: "#2196f3" }}
-        >
-          Create New Post
-        </Button>
-      </Box>
+    <Box sx={{ backgroundColor: "#ffffff", minHeight: "100vh" }}>
+      <Container maxWidth="lg" sx={{ py: 6 }}>
+        <Box sx={{ textAlign: 'center', mb: 6 }}>
+          <Typography variant="h2" component="h1" sx={{ 
+            fontWeight: 700,
+            color: '#1a1a1a',
+            mb: 2
+          }}>
+            Community Forum
+          </Typography>
+          <Typography variant="h6" sx={{ color: '#666', mb: 4 }}>
+            Join the discussion about quantum computing and share your insights
+          </Typography>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={handleOpenDialog}
+            sx={{
+              backgroundColor: "#1890ff",
+              padding: "12px 24px",
+              fontSize: "1.1rem",
+              '&:hover': {
+                backgroundColor: "#40a9ff"
+              }
+            }}
+          >
+            Create New Post
+          </Button>
+        </Box>
 
-      <Grid container spacing={3}>
-        {topics.map((topic) => (
-          <Grid item xs={12} md={6} lg={4} key={topic.tid}>
-            <Card
+        <Grid container spacing={4}>
+          {topics.map((topic) => (
+            <Grid item xs={12} md={6} lg={4} key={topic.tid}>
+              <Card
+                sx={{
+                  height: "100%",
+                  borderRadius: 2,
+                  border: '1px solid #f0f0f0',
+                  boxShadow: 'none',
+                  transition: "all 0.3s ease",
+                  '&:hover': {
+                    transform: "translateY(-8px)",
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+                  },
+                }}
+              >
+                <CardContent sx={{ p: 3 }}>
+                  <Typography 
+                    variant="h6" 
+                    gutterBottom 
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: '1.2rem',
+                      lineHeight: 1.4
+                    }}
+                  >
+                    <a
+                      href={`/topic/${topic.tid}`}
+                      style={{ 
+                        textDecoration: "none", 
+                        color: "#1a1a1a",
+                        '&:hover': {
+                          color: "#1890ff"
+                        }
+                      }}
+                    >
+                      {topic.title}
+                    </a>
+                  </Typography>
+
+                  <Typography 
+                    color="textSecondary" 
+                    gutterBottom
+                    sx={{ fontSize: '0.9rem', mb: 2 }}
+                  >
+                    Posted by {topic.user.username}
+                  </Typography>
+
+                  <Divider sx={{ my: 2 }} />
+
+                  <Box display="flex" alignItems="center" justifyContent="space-between" mt={2}>
+                    <Box display="flex" alignItems="center" gap={3}>
+                      <Box display="flex" alignItems="center">
+                        <CommentIcon fontSize="small" sx={{ mr: 1, color: '#1890ff' }} />
+                        <Typography variant="body2">{topic.postcount}</Typography>
+                      </Box>
+
+                      <Box display="flex" alignItems="center">
+                        <ViewIcon fontSize="small" sx={{ mr: 1, color: '#1890ff' }} />
+                        <Typography variant="body2">{topic.viewcount}</Typography>
+                      </Box>
+                    </Box>
+
+                    <Box 
+                      sx={{ 
+                        backgroundColor: '#f5f5f5',
+                        padding: '4px 12px',
+                        borderRadius: '16px',
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <CategoryIcon fontSize="small" sx={{ mr: 1, color: '#666' }} />
+                      <Typography variant="body2" color="textSecondary">
+                        {topic.category.name}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    mt={2}
+                    color="textSecondary"
+                  >
+                    {new Date(topic.timestampISO).toLocaleString()}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+
+        <Dialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          maxWidth="md"
+          fullWidth
+          PaperProps={{
+            sx: {
+              borderRadius: 2,
+              p: 2
+            }
+          }}
+        >
+          <DialogTitle sx={{ fontSize: '1.5rem', fontWeight: 600 }}>Create New Post</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Title"
+              fullWidth
+              variant="outlined"
+              value={newPost.title}
+              onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+              sx={{ mb: 3 }}
+            />
+            <TextField
+              margin="dense"
+              label="Content"
+              fullWidth
+              multiline
+              rows={6}
+              variant="outlined"
+              value={newPost.content}
+              onChange={(e) =>
+                setNewPost({ ...newPost, content: e.target.value })
+              }
+              sx={{ mb: 3 }}
+            />
+            <FormControl fullWidth variant="outlined">
+              <InputLabel>Category</InputLabel>
+              <Select
+                value={newPost.category}
+                onChange={(e) =>
+                  setNewPost({ ...newPost, category: e.target.value })
+                }
+                label="Category"
+              >
+                <MenuItem value="general">General Discussion</MenuItem>
+                <MenuItem value="technology">Quantum Technology</MenuItem>
+                <MenuItem value="questions">Q&A</MenuItem>
+              </Select>
+            </FormControl>
+          </DialogContent>
+          <DialogActions sx={{ p: 3 }}>
+            <Button 
+              onClick={handleCloseDialog}
+              sx={{ color: '#666' }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handlePostSubmit}
+              variant="contained"
               sx={{
-                height: "100%",
-                transition: "transform 0.2s",
-                "&:hover": {
-                  transform: "translateY(-4px)",
-                  boxShadow: 3,
-                },
+                backgroundColor: "#1890ff",
+                '&:hover': {
+                  backgroundColor: "#40a9ff"
+                }
               }}
             >
-              <CardContent>
-                <Typography variant="h6" gutterBottom noWrap>
-                  <a
-                    href={`/topic/${topic.tid}`} // 修改这里的链接
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    {topic.title}
-                  </a>
-                </Typography>
-
-                <Typography color="textSecondary" gutterBottom>
-                  By {topic.user.username}
-                </Typography>
-
-                <Box display="flex" alignItems="center" gap={2} mt={2}>
-                  <Box display="flex" alignItems="center">
-                    <CommentIcon fontSize="small" sx={{ mr: 0.5 }} />
-                    <Typography variant="body2">{topic.postcount}</Typography>
-                  </Box>
-
-                  <Box display="flex" alignItems="center">
-                    <ViewIcon fontSize="small" sx={{ mr: 0.5 }} />
-                    <Typography variant="body2">{topic.viewcount}</Typography>
-                  </Box>
-
-                  <Box display="flex" alignItems="center">
-                    <CategoryIcon fontSize="small" sx={{ mr: 0.5 }} />
-                    <Typography variant="body2">
-                      {topic.category.name}
-                    </Typography>
-                  </Box>
-                </Box>
-
-                <Typography
-                  variant="caption"
-                  display="block"
-                  mt={1}
-                  color="textSecondary"
-                >
-                  {new Date(topic.timestampISO).toLocaleString()}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogTitle>Create New Post</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Title"
-            fullWidth
-            variant="outlined"
-            value={newPost.title}
-            onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            margin="dense"
-            label="Content"
-            fullWidth
-            multiline
-            rows={4}
-            variant="outlined"
-            value={newPost.content}
-            onChange={(e) =>
-              setNewPost({ ...newPost, content: e.target.value })
-            }
-            sx={{ mb: 2 }}
-          />
-          <FormControl fullWidth variant="outlined">
-            <InputLabel>Category</InputLabel>
-            <Select
-              value={newPost.category}
-              onChange={(e) =>
-                setNewPost({ ...newPost, category: e.target.value })
-              }
-              label="Category"
-            >
-              <MenuItem value="general">General</MenuItem>
-              <MenuItem value="technology">Technology</MenuItem>
-              <MenuItem value="questions">Questions</MenuItem>
-            </Select>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button
-            onClick={handlePostSubmit}
-            variant="contained"
-            color="primary"
-          >
-            Publish
-          </Button>
-        </DialogActions>
-      </Dialog>
+              Publish Post
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Container>
     </Box>
   );
 };

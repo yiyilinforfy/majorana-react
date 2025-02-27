@@ -5,7 +5,7 @@ import { Tooltip } from "react-tooltip";
 import { motion } from "framer-motion";
 import Particles from "react-particles";
 import { loadFull } from "tsparticles";
-import { get } from "@/utils/api";
+import { get, post } from "@/utils/api";
 import {
   Button,
   Dialog,
@@ -66,10 +66,10 @@ function HomePage() {
     setSummary("");
 
     try {
-      const response = await axios.post("http://localhost:3000/api/news/summarize", {
+      const response = await post("/api/news/summarize", {
         url,
       });
-      setSummary(response.data.summary);
+      setSummary(response.summary);
     } catch (error) {
       console.error("Error fetching summary:", error);
       setSummary("Unable to generate summary. Please try again later.");

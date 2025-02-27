@@ -14,6 +14,7 @@ import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew"; // 用于跳转图标
+import { post } from "@/utils/api"; 
 
 function NewsItem({ article }) {
   const [imageError, setImageError] = useState(false);
@@ -25,15 +26,15 @@ function NewsItem({ article }) {
     setOpenDialog(true);
     setLoading(true);
     setSummary("");
-
+  
     try {
-      const response = await axios.post("http://localhost:3000/api/news/summarize", {
+      const response = await post("/api/news/summarize", {
         url: article.url,
       });
-      setSummary(response.data.summary);
+      setSummary(response.summary); // 直接访问 summary
     } catch (error) {
       console.error("Error fetching summary:", error);
-      setSummary("无法生成摘要，请稍后重试");
+      setSummary("Unable to generate summary. Please try again later.");
     } finally {
       setLoading(false);
     }

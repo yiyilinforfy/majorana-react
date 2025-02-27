@@ -18,6 +18,7 @@ import ResourcesPage from "./pages/ResourcesPage";
 import TopicDetailPage from "./pages/TopicDetailPage";
 import NotFoundPage from "./pages/NotFoundPage"; // 导入NotFoundPage
 import { AuthProvider } from "./contexts/AuthContext";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./index.css";
 
 function App() {
@@ -31,10 +32,10 @@ function App() {
             <Route path="/news" element={<NewsPage />} />
             <Route path="/forum" element={<ForumPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
-            <Route path="/topic/:tid" element={<TopicDetailPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            {/* <Route path="/topic/:tid" element={<TopicDetailPage />} /> */}
+            {/* <Route path="/login" element={<LoginPage />} /> */}
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="*" element={<NotFoundPage />} /> {/* 添加通配符路由 */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
       </Router>

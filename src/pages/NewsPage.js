@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NewsItem from "../components/NewsItem";
+import NewsResult from "../components/NewsResult";
 import Footer from "../components/Footer";
-import "@/style/NewsPage.css";
+import "@/style/NewsPage.css"; // 假设保留外部CSS用于动画
+import { get } from "../utils/api";
 
 function NewsPage() {
   const [articles, setArticles] = useState([]);
@@ -23,10 +25,10 @@ function NewsPage() {
 
   const fetchNews = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/news?page=${currentPage}&limit=${itemsPerPage}`
+      const response = await get(
+        `/api/news?page=${currentPage}&limit=${itemsPerPage}`
       );
-      const { news, totalPages, totalNews } = response.data;
+      const { news, totalPages, totalNews } = response;
       setArticles(news);
       setTotalPages(totalPages);
       setTotalNews(totalNews);
@@ -47,12 +49,12 @@ function NewsPage() {
 
     setSearching(true);
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/news/search?q=${encodeURIComponent(
+      const response = await get(
+        `/api/news/search?q=${encodeURIComponent(
           searchQuery
         )}`
       );
-      setSearchResults(response.data.news);
+      setSearchResults(response.news);
     } catch (error) {
       console.error("Error searching news:", error);
     }
@@ -60,15 +62,15 @@ function NewsPage() {
   };
 
   return (
-    <div style={styles.container}>
-      <div className="news-content">
-        <div className="news-header" style={styles.newsHeader}>
+    <div>
+       <div style={styles.container}>
+      <div style={styles.newsContent}>
+        <div style={styles.newsHeader}>
           <h1 style={styles.headerTitle}>Latest Quantum Computing News</h1>
           <p style={styles.subtitle}>
             Exploring the Frontiers of Quantum Computing
           </p>
           <button
-            className="search-button"
             onClick={() => setShowSearchDialog(true)}
             style={styles.searchButton}
           >
@@ -82,12 +84,11 @@ function NewsPage() {
         </div>
 
         {showSearchDialog && (
-          <div className="search-dialog-overlay" style={styles.searchOverlay}>
-            <div className="search-dialog" style={styles.searchDialog}>
-              <div className="search-header" style={styles.searchHeader}>
+          <div style={styles.searchOverlay}>
+            <div style={styles.searchDialog}>
+              <div style={styles.searchHeader}>
                 <h2 style={styles.searchTitle}>Search News</h2>
                 <button
-                  className="close-button"
                   onClick={() => {
                     setShowSearchDialog(false);
                     setSearchQuery("");
@@ -99,10 +100,7 @@ function NewsPage() {
                 </button>
               </div>
 
-              <div
-                className="search-input-container"
-                style={styles.searchInputContainer}
-              >
+              <div style={styles.searchInputContainer}>
                 <input
                   type="text"
                   value={searchQuery}
@@ -111,35 +109,26 @@ function NewsPage() {
                   onKeyPress={(e) => e.key === "Enter" && handleSearch()}
                   style={styles.searchInput}
                 />
-                <button
-                  onClick={handleSearch}
-                  style={styles.searchSubmitButton}
-                >
+                <button onClick={handleSearch} style={styles.searchSubmitButton}>
                   Search
                 </button>
               </div>
 
               {searching ? (
-                <div
-                  className="loading-container"
-                  style={styles.loadingContainer}
-                >
-                  <div
-                    className="loading-spinner"
-                    style={styles.loadingSpinner}
-                  ></div>
+                <div style={styles.loadingContainer}>
+                  <div style={styles.loadingSpinner}></div>
                   <p style={styles.loadingText}>Searching...</p>
                 </div>
               ) : (
-                <div className="search-results" style={styles.searchResults}>
+                <div style={styles.searchResults}>
                   {searchResults.length > 0 ? (
                     <>
                       <p style={styles.paginationInfo}>
                         Found {searchResults.length} results
                       </p>
-                      <ul className="news-list" style={styles.newsList}>
+                      <ul style={styles.newsList}>
                         {searchResults.map((article) => (
-                          <NewsItem key={article.url} article={article} />
+                          <NewsResult key={article.url} article={article} />
                         ))}
                       </ul>
                     </>
@@ -153,39 +142,35 @@ function NewsPage() {
         )}
 
         {loading ? (
-          <div className="loading-container" style={styles.loadingContainer}>
-            <div
-              className="loading-spinner"
-              style={styles.loadingSpinner}
-            ></div>
+          <div style={styles.loadingContainer}>
+            <div style={styles.loadingSpinner}></div>
             <p style={styles.loadingText}>Loading news...</p>
           </div>
         ) : (
           <>
-            <ul className="news-list" style={styles.newsList}>
+            <ul style={styles.newsList}>
               {articles.map((article) => (
                 <NewsItem key={article.url} article={article} />
               ))}
             </ul>
 
-            <div className="pagination" style={styles.pagination}>
+            <div style={styles.pagination}>
               <button
-                className="page-button"
                 disabled={currentPage === 1}
                 onClick={() => handlePageChange(currentPage - 1)}
-                style={styles.pageButton}
+                style={{
+                  ...styles.pageButton,
+                  ...(currentPage === 1 ? styles.disabledButton : {}),
+                }}
               >
                 Previous
               </button>
 
-              <div className="page-numbers" style={styles.pageNumbers}>
+              <div style={styles.pageNumbers}>
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   (page) => (
                     <button
                       key={page}
-                      className={`page-number ${
-                        currentPage === page ? "active" : ""
-                      }`}
                       onClick={() => handlePageChange(page)}
                       style={{
                         ...styles.pageNumber,
@@ -201,16 +186,18 @@ function NewsPage() {
               </div>
 
               <button
-                className="page-button"
                 disabled={currentPage === totalPages}
                 onClick={() => handlePageChange(currentPage + 1)}
-                style={styles.pageButton}
+                style={{
+                  ...styles.pageButton,
+                  ...(currentPage === totalPages ? styles.disabledButton : {}),
+                }}
               >
                 Next
               </button>
             </div>
 
-            <div className="pagination-info" style={styles.paginationInfo}>
+            <div style={styles.paginationInfo}>
               Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
               {Math.min(currentPage * itemsPerPage, totalNews)} of {totalNews}{" "}
               results
@@ -218,63 +205,63 @@ function NewsPage() {
           </>
         )}
       </div>
-      <Footer />
+      
     </div>
+    <Footer />
+    </div>
+   
   );
 }
 
-// 内联样式，参照HomePage的UI风格
 const styles = {
   container: {
-    color: "#fff",
+    color: "#333", // 深灰色文字，适合白底
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
     minHeight: "100vh",
     padding: "40px",
-    background: "linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%)", // 与HomePage一致的深色渐变背景
+    background: "#fff", // 白色背景
     position: "relative",
   },
   newsContent: {
-    maxWidth: "1400px", // 与HomePage的content宽度一致
+    maxWidth: "1400px",
     margin: "0 auto",
+    padding: "0px 20px",
   },
   newsHeader: {
     marginBottom: "40px",
-    textAlign: "center", // 标题居中显示
+    textAlign: "center",
   },
   headerTitle: {
     fontSize: "32px",
     fontWeight: "700",
-    color: "#4a90e2", // 蓝色标题，与HomePage一致
+    color: "#2a5bd7", // 蓝色标题，与Resources一致
     letterSpacing: "1px",
     margin: "0 0 10px 0",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)", // 与HomePage标题一致
   },
   subtitle: {
     fontSize: "18px",
-    color: "#e0e0e0", // 较浅的白色，与HomePage描述一致
+    color: "#666", // 灰色副标题，与Resources一致
     margin: "0 0 20px 0",
-    opacity: 0.9,
   },
   searchButton: {
-    backgroundColor: "#4a90e2", // 蓝色按钮，与HomePage一致
+    backgroundColor: "#2a5bd7", // 蓝色按钮
     color: "#fff",
     border: "none",
     padding: "12px 25px",
     fontSize: "16px",
     borderRadius: "8px",
     cursor: "pointer",
-    transition: "all 0.3s ease",
+    transition: "background-color 0.3s ease, transform 0.3s ease",
     fontWeight: "600",
-    boxShadow: "0 4px 15px rgba(74,144,226,0.3)", // 按钮阴影，与HomePage一致
     "&:hover": {
-      backgroundColor: "#357abd", // 深蓝色悬停，与HomePage按钮一致
+      backgroundColor: "#1e429f", // 深蓝色悬停
       transform: "translateY(-2px)",
     },
   },
   currentPageIndicator: {
     textAlign: "center",
     fontSize: "18px",
-    color: "#e0e0e0",
+    color: "#666",
     margin: "20px 0",
   },
   searchOverlay: {
@@ -283,16 +270,16 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.7)", // 半透明遮罩，与科技感一致
+    backgroundColor: "rgba(0, 0, 0, 0.7)", // 半透明遮罩
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     zIndex: 1000,
   },
   searchDialog: {
-    background: "#1b263b", // 深色背景，与HomePage一致
+    background: "#f9f9f9", // 浅灰色背景，与Resources卡片一致
     borderRadius: "12px",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
     width: "85%",
     padding: "20px",
     position: "relative",
@@ -306,18 +293,18 @@ const styles = {
   searchTitle: {
     fontSize: "24px",
     fontWeight: "600",
-    color: "#ffff",
+    color: "#333", // 深灰色标题
     margin: 0,
   },
   closeButton: {
     background: "none",
     border: "none",
     fontSize: "24px",
-    color: "#fff",
+    color: "#666",
     cursor: "pointer",
     padding: "0 10px",
     "&:hover": {
-      color: "#4a90e2",
+      color: "#2a5bd7", // 蓝色悬停
     },
   },
   searchInputContainer: {
@@ -330,26 +317,26 @@ const styles = {
     padding: "10px",
     fontSize: "16px",
     borderRadius: "8px",
-    border: "1px solid #4a90e2",
-    backgroundColor: "#0d1b2a",
-    color: "#fff",
+    border: "1px solid #ccc",
+    backgroundColor: "#fff",
+    color: "#333",
     outline: "none",
     "&:focus": {
-      borderColor: "#357abd",
-      boxShadow: "0 0 5px rgba(74,144,226,0.5)",
+      borderColor: "#2a5bd7",
+      boxShadow: "0 0 5px rgba(42,91,215,0.3)",
     },
   },
   searchSubmitButton: {
-    backgroundColor: "#4a90e2",
+    backgroundColor: "#2a5bd7",
     color: "#fff",
     border: "none",
     padding: "10px 20px",
     fontSize: "16px",
     borderRadius: "8px",
     cursor: "pointer",
-    transition: "all 0.3s ease",
+    transition: "background-color 0.3s ease",
     "&:hover": {
-      backgroundColor: "#357abd",
+      backgroundColor: "#1e429f",
     },
   },
   loadingContainer: {
@@ -359,7 +346,7 @@ const styles = {
   loadingSpinner: {
     width: "30px",
     height: "30px",
-    border: "3px solid #4a90e2",
+    border: "3px solid #2a5bd7",
     borderTop: "3px solid transparent",
     borderRadius: "50%",
     animation: "spin 1s linear infinite",
@@ -367,7 +354,7 @@ const styles = {
   },
   loadingText: {
     fontSize: "16px",
-    color: "#4a90e2",
+    color: "#2a5bd7",
   },
   searchResults: {
     maxHeight: "70vh",
@@ -375,8 +362,7 @@ const styles = {
   },
   newsList: {
     listStyle: "none",
-    padding: '0 50px',
-    // width: "100%", // 占用全宽
+    padding: "0 50px",
     marginBottom: "30px",
   },
   pagination: {
@@ -388,22 +374,22 @@ const styles = {
   },
   pageButton: {
     backgroundColor: "transparent",
-    color: "#4a90e2",
-    border: "2px solid #4a90e2",
+    color: "#2a5bd7",
+    border: "2px solid #2a5bd7",
     padding: "10px 20px",
     fontSize: "16px",
     borderRadius: "8px",
     cursor: "pointer",
-    transition: "all 0.3s ease",
+    transition: "background-color 0.3s ease, color 0.3s ease",
     fontWeight: "600",
     "&:hover": {
-      backgroundColor: "#4a90e2",
+      backgroundColor: "#2a5bd7",
       color: "#fff",
     },
-    "&:disabled": {
-      opacity: 0.5,
-      cursor: "not-allowed",
-    },
+  },
+  disabledButton: {
+    opacity: 0.5,
+    cursor: "not-allowed",
   },
   pageNumbers: {
     display: "flex",
@@ -411,38 +397,38 @@ const styles = {
   },
   pageNumber: {
     backgroundColor: "transparent",
-    color: "#4a90e2",
-    border: "1px solid #4a90e2",
+    color: "#2a5bd7",
+    border: "1px solid #2a5bd7",
     padding: "8px 15px",
     fontSize: "14px",
     borderRadius: "8px",
     cursor: "pointer",
-    transition: "all 0.3s ease",
+    transition: "background-color 0.3s ease, color 0.3s ease",
     "&:hover": {
-      backgroundColor: "#4a90e2",
+      backgroundColor: "#2a5bd7",
       color: "#fff",
     },
   },
   activePageNumber: {
-    backgroundColor: "#4a90e2",
+    backgroundColor: "#2a5bd7",
     color: "#fff",
-    borderColor: "#4a90e2",
+    borderColor: "#2a5bd7",
   },
   paginationInfo: {
     textAlign: "center",
     fontSize: "14px",
-    color: "#e0e0e0",
+    color: "#666",
     marginTop: "10px",
   },
   noResults: {
     textAlign: "center",
     fontSize: "16px",
-    color: "#e0e0e0",
+    color: "#666",
     marginTop: "20px",
   },
 };
 
-// 动画样式（内联CSS无法直接写动画，需要在CSS文件中定义）
+// 动画样式需要在外部CSS文件中定义
 const keyframes = `
   @keyframes spin {
     0% { transform: rotate(0deg); }

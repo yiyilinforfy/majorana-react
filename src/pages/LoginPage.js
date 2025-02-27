@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
+import { get } from "../utils/api";
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -25,7 +26,7 @@ function Login() {
   useEffect(() => {
     const fetchCsrfToken = async () => {
       try {
-        await axios.get("http://localhost:3000/api/auth/session", {
+        await get("/api/auth/session", {
           withCredentials: true,
         });
         const token = document.cookie

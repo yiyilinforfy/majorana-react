@@ -3,62 +3,159 @@ import Footer from "../components/Footer";
 
 function ResourcesPage() {
   return (
-    <div style={styles.container}>
+    <div>
+          <div style={styles.container}>
       <div style={styles.content}>
         <h1 style={styles.title}>Quantum Computing Educational Resources</h1>
         <p style={styles.subtitle}>
-          Explore tutorials, videos, and reading lists to dive into the world of
-          quantum computing. Join us at Majorana.fun to unlock the future of
-          technology!
+          Explore tutorials, videos, and recommended resources to dive into the world of quantum computing. Join us at Majorana.fun to unlock the future of technology!
         </p>
 
-        {/* Tutorials Section */}
+        {/* Universities Section */}
         <section style={styles.section}>
-          <h2 style={styles.sectionHeading}>Get-Started Websites</h2>
+          <h2 style={styles.sectionHeading}>Leading Universities</h2>
           <div style={styles.resourceGrid}>
             <div style={styles.resourceCard}>
-              <div style={styles.resourceIcon}>
-                <i className="fas fa-laptop-code"></i>
-              </div>
-              <h3 style={styles.resourceTitle}>Qiskit Tutorials</h3>
+              <h3 style={styles.resourceTitle}>Harvard University</h3>
               <p style={styles.resourceText}>
-                Jupyter notebooks from IBM Qiskit, covering quantum computing
-                basics, algorithms, and programming on real quantum hardware.
+                Quantum Optics, Quantum Communication, Quantum Materials, and Quantum Sensing.
               </p>
               <a
-                href="https://qiskit.org/documentation/tutorials.html"
+                href="https://quantum.harvard.edu/"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={styles.resourceLink}
               >
-                Start Learning
+                Visit Website
               </a>
             </div>
             <div style={styles.resourceCard}>
-              <div style={styles.resourceIcon}>
-                <i className="fas fa-code"></i>
-              </div>
-              <h3 style={styles.resourceTitle}>Quantum Katas</h3>
+              <h3 style={styles.resourceTitle}>University of Cambridge</h3>
               <p style={styles.resourceText}>
-                Q# programming exercises by Microsoft, ideal for learning
-                quantum computing and programming step-by-step.
+                Quantum Algorithms and Complexity, Quantum Networks, Quantum Measurement, and Quantum Cryptography.
               </p>
               <a
-                href="https://github.com/Microsoft/QuantumKatas"
+                href="https://www.cam.ac.uk/topics/quantum-computing"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={styles.resourceLink}
               >
-                Start Learning
+                Visit Website
+              </a>
+            </div>
+            <div style={styles.resourceCard}>
+              <h3 style={styles.resourceTitle}>University of Oxford</h3>
+              <p style={styles.resourceText}>
+                Quantum Computing Hardware, Quantum Information Processing, Quantum Error Correction, and Quantum Cryptography.
+              </p>
+              <a
+                href="https://www.physics.ox.ac.uk/research/theme/quantum-information-and-computation"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styles.resourceLink}
+              >
+                Visit Website
+              </a>
+            </div>
+            <div style={styles.resourceCard}>
+              <h3 style={styles.resourceTitle}>Princeton University</h3>
+              <p style={styles.resourceText}>
+                Quantum Materials, Topological Quantum Computing, Quantum Theory, and Experimental Quantum Physics.
+              </p>
+              <a
+                href="https://quantum.princeton.edu/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styles.resourceLink}
+              >
+                Visit Website
+              </a>
+            </div>
+            <div style={styles.resourceCard}>
+              <h3 style={styles.resourceTitle}>Massachusetts Institute of Technology</h3>
+              <p style={styles.resourceText}>
+                Quantum Algorithms, Quantum Error Correction, Quantum Materials, and Quantum Hardware Development.
+              </p>
+              <a
+                href="https://cqe.mit.edu/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styles.resourceLink}
+              >
+                Visit Website
               </a>
             </div>
           </div>
         </section>
 
-        {/* Videos Section */}
+        {/* Organizations Section */}
+        <section style={styles.section}>
+          <h2 style={styles.sectionHeading}>Organizations and Companies</h2>
+          <div style={styles.resourceGrid}>
+            <div style={styles.resourceCard}>
+              <h3 style={styles.resourceTitle}>Microsoft Quantum Team</h3>
+              <p style={styles.resourceText}>
+                Topological Quantum Computing, Quantum Programming Languages, Quantum Tools Development, and Quantum Cryptography.
+              </p>
+              <a
+                href="https://azure.microsoft.com/en-us/solutions/quantum-computing/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styles.resourceLink}
+              >
+                Visit Website
+              </a>
+            </div>
+            <div style={styles.resourceCard}>
+              <h3 style={styles.resourceTitle}>Google Quantum AI</h3>
+              <p style={styles.resourceText}>
+                Quantum Supremacy, Quantum Simulations, Quantum Error Correction, and Quantum Machine Learning.
+              </p>
+              <a
+                href="https://quantumai.google/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styles.resourceLink}
+              >
+                Visit Website
+              </a>
+            </div>
+            <div style={styles.resourceCard}>
+              <h3 style={styles.resourceTitle}>IBM Quantum</h3>
+              <p style={styles.resourceText}>
+                Quantum Hardware Development, Quantum Cloud Computing, Quantum Algorithms, and Quantum Software.
+              </p>
+              <a
+                href="https://www.ibm.com/quantum-computing/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styles.resourceLink}
+              >
+                Visit Website
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* Video Tutorials Section */}
         <section style={styles.section}>
           <h2 style={styles.sectionHeading}>Video Tutorials</h2>
           <div style={styles.resourceGrid}>
+            <div style={styles.resourceCard}>
+              <iframe
+                style={styles.videoFrame}
+                src="https://www.youtube.com/embed/wSHmygPQukQ"
+                title="Majorana 1 Explained: The Path to a Million Qubits"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+              <h3 style={styles.resourceTitle}>Majorana 1 Explained</h3>
+              <p style={styles.resourceText}>
+                A video explaining Microsoft's path to a million qubits with Majorana-based quantum computing.
+              </p>
+            </div>
             <div style={styles.resourceCard}>
               <iframe
                 style={styles.videoFrame}
@@ -71,24 +168,7 @@ function ResourcesPage() {
               ></iframe>
               <h3 style={styles.resourceTitle}>Coding with Qiskit</h3>
               <p style={styles.resourceText}>
-                YouTube series by IBM, showing how to write quantum algorithms
-                for beginners and programmers.
-              </p>
-            </div>
-            <div style={styles.resourceCard}>
-              <iframe
-                style={styles.videoFrame}
-                src="https://www.youtube.com/embed/FgZ-8NFSysA"
-                title="Step inside the Google Quantum AI lab"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              ></iframe>
-              <h3 style={styles.resourceTitle}>Google Quantum AI Channel</h3>
-              <p style={styles.resourceText}>
-                Official YouTube channel with tutorials on programming quantum
-                computers and latest breakthroughs.
+                YouTube series by IBM, showing how to write quantum algorithms for beginners and programmers.
               </p>
             </div>
           </div>
@@ -98,13 +178,13 @@ function ResourcesPage() {
         <section style={styles.section}>
           <h2 style={styles.sectionHeading}>Recommended Books</h2>
           <div style={styles.resourceGrid}>
-            <div style={styles.resourceCard}>
+            <div style={styles.bookCard}>
               <img
                 src="/book1.jpg"
                 alt="Quantum Computation and Quantum Information"
                 style={styles.bookImage}
               />
-              <div style={styles.resourceInfo}>
+              <div style={styles.bookContent}>
                 <h3 style={styles.resourceTitle}>
                   Quantum Computation and Quantum Information
                 </h3>
@@ -112,8 +192,7 @@ function ResourcesPage() {
                   by Michael A. Nielsen & Isaac L. Chuang
                 </p>
                 <p style={styles.resourceText}>
-                  The "bible" of quantum computing, ideal for readers with a
-                  math background.
+                  The "bible" of quantum computing, ideal for readers with a math background.
                 </p>
                 <a
                   href="https://www.cambridge.org/highereducation/books/quantum-computation-and-quantum-information/01E10196D0A682A6AEFFEA52D53BE9AE#overview"
@@ -125,13 +204,13 @@ function ResourcesPage() {
                 </a>
               </div>
             </div>
-            <div style={styles.resourceCard}>
+            <div style={styles.bookCard}>
               <img
                 src="/book2.jpg"
                 alt="Introduction to Quantum Computing"
                 style={styles.bookImage}
               />
-              <div style={styles.resourceInfo}>
+              <div style={styles.bookContent}>
                 <h3 style={styles.resourceTitle}>
                   Introduction to Quantum Computing
                 </h3>
@@ -139,8 +218,7 @@ function ResourcesPage() {
                   by Phillip Kaye, Raymond Laflamme & Michele Mosca
                 </p>
                 <p style={styles.resourceText}>
-                  A beginner-friendly book requiring minimal quantum mechanics
-                  knowledge.
+                  A beginner-friendly book requiring minimal quantum mechanics knowledge.
                 </p>
                 <a
                   href="https://global.oup.com/academic/product/an-introduction-to-quantum-computing-9780198570004"
@@ -155,125 +233,152 @@ function ResourcesPage() {
           </div>
         </section>
       </div>
-      <Footer />
     </div>
+    <Footer />
+  </div>
+
   );
 }
 
 const styles = {
   container: {
-    color: "#fff",
+    color: "#333",
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
     minHeight: "100vh",
-    padding: "40px", // 与HomePage一致
-    background: "linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%)", // 与HomePage一致的深色渐变背景
+    padding: "40px",
+    background: "linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%)", // 浅色渐变背景
     position: "relative",
   },
   content: {
-    maxWidth: "1400px", // 与HomePage和NewsPage一致
+    maxWidth: "1400px",
     margin: "0 auto",
-    padding: "0px 20px", // 增加内边距，与HomePage一致
+    padding: "0 20px",
   },
   title: {
-    fontSize: "32px",
+    fontSize: "36px",
     fontWeight: "700",
-    color: "#4a90e2", // 蓝色标题，与HomePage一致
+    color: "#2a5bd7",
     letterSpacing: "1px",
     marginBottom: "20px",
-    textAlign: "center", // 居中显示
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)", // 与HomePage标题一致
+    textAlign: "center",
+    textShadow: "0 2px 4px rgba(42, 91, 215, 0.2)",
   },
   subtitle: {
-    fontSize: "16px",
+    fontSize: "18px",
     lineHeight: "1.6",
-    color: "#e0e0e0", // 较浅的白色，与HomePage描述一致
-    marginBottom: "40px",
-    textAlign: "center", // 居中显示
+    color: "#555",
+    marginBottom: "60px",
+    textAlign: "center",
     maxWidth: "800px",
     margin: "0 auto 60px",
-    opacity: 0.9,
   },
   section: {
-    marginBottom: "60px",
+    marginBottom: "80px",
   },
   sectionHeading: {
     fontSize: "28px",
     fontWeight: "600",
-    color: "#ffff", // 蓝色标题，与HomePage一致
-    marginBottom: "30px",
-    textAlign: "center", // 居中显示
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)", // 轻微阴影，科技感
+    color: "#2a5bd7",
+    marginBottom: "40px",
+    textAlign: "center",
+    position: "relative",
+    "&::after": {
+      content: '""',
+      display: "block",
+      width: "60px",
+      height: "3px",
+      background: "linear-gradient(90deg, #2a5bd7, #00d4ff)",
+      margin: "10px auto",
+      borderRadius: "2px",
+    },
   },
   resourceGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))", // 调整为更宽的卡片，适合内容
-    gap: "40px", // 增大间距，与HomePage一致
-    justifyContent: "center", // 居中布局
+    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+    gap: "40px",
+    justifyContent: "center",
   },
   resourceCard: {
-    background: "#1b263b", // 深色背景，与HomePage一致
+    background: "#fff",
     borderRadius: "12px",
-    padding: "30px",
-    boxShadow: "0 8px 20px rgba(0,0,0,0.2)", // 增加阴影，与HomePage卡片一致
-    transition: "transform 0.3s ease, box-shadow 0.3s ease", // 添加动画，与HomePage一致
-    textAlign: "center", // 卡片内容居中
+    padding: "25px",
+    boxShadow: "0 6px 15px rgba(0, 0, 0, 0.08)",
+    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    minHeight: "300px",
     "&:hover": {
-      transform: "translateY(-5px)", // 悬停上移，与HomePage卡片一致
-      boxShadow: "0 12px 24px rgba(0,0,0,0.3)", // 增强阴影
+      transform: "translateY(-8px)",
+      boxShadow: "0 12px 25px rgba(0, 0, 0, 0.15)",
     },
   },
-  resourceIcon: {
-    fontSize: "40px",
-    color: "#4a90e2", // 蓝色图标，与HomePage高亮一致
-    marginBottom: "20px",
+  bookCard: {
+    display: "flex",
+    flexDirection: "row",
+    background: "#fff",
+    borderRadius: "12px",
+    boxShadow: "0 6px 15px rgba(0, 0, 0, 0.08)",
+    overflow: "hidden",
+    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+    "&:hover": {
+      transform: "translateY(-8px)",
+      boxShadow: "0 12px 25px rgba(0, 0, 0, 0.15)",
+    },
   },
   resourceTitle: {
     fontSize: "20px",
     fontWeight: "600",
-    marginBottom: "15px",
-    color: "#fff", // 白色标题，与HomePage一致
+    marginBottom: "10px",
+    color: "#333",
   },
   resourceText: {
-    fontSize: "16px",
-    lineHeight: "1.6",
-    color: "#e0e0e0", // 较浅的白色，与HomePage描述一致
+    fontSize: "15px",
+    lineHeight: "1.5",
+    color: "#666",
     marginBottom: "20px",
+    flexGrow: 1,
   },
   resourceLink: {
     color: "#fff",
-    backgroundColor: "#4a90e2", // 蓝色按钮，与HomePage一致
-    padding: "10px 20px",
-    borderRadius: "8px", // 矩形角，与HomePage按钮一致
+    background: "linear-gradient(45deg, #2a5bd7, #00d4ff)",
+    padding: "8px 16px",
+    textAlign: "center",
+    borderRadius: "20px",
     textDecoration: "none",
     display: "inline-block",
-    transition: "background-color 0.3s ease, transform 0.3s ease", // 平滑动画
+    transition: "background 0.3s ease, transform 0.3s ease",
     fontWeight: "600",
-    boxShadow: "0 4px 15px rgba(74,144,226,0.3)", // 按钮阴影，与HomePage一致
+    fontSize: "14px",
     "&:hover": {
-      backgroundColor: "#357abd", // 深蓝色悬停，与HomePage一致
-      transform: "translateY(-2px)", // 轻微上移，与HomePage按钮一致
+      background: "linear-gradient(45deg, #1e429f, #00b4d8)",
+      transform: "translateY(-2px)",
     },
   },
   videoFrame: {
     width: "100%",
-    height: "350px",
-    borderRadius: "8px", // 圆角，与卡片一致
+    height: "330px",
+    borderRadius: "8px",
     border: "none",
+    marginBottom: "15px",
   },
   bookImage: {
-    width: "200px",
+    width: "180px",
+    height: "270px",
     objectFit: "cover",
-    borderRadius: "8px 0 0 8px", // 左上圆角，与卡片一致
+    borderRadius: "8px 0 0 8px",
   },
-  resourceInfo: {
+  bookContent: {
     padding: "20px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
     flex: 1,
-    textAlign: "left", // 书籍信息左对齐
   },
   resourceAuthor: {
     fontSize: "14px",
-    color: "#e0e0e0",
-    marginBottom: "15px",
+    color: "#888",
+    marginBottom: "10px",
     fontStyle: "italic",
   },
 };

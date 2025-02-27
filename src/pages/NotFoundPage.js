@@ -31,9 +31,8 @@ const styles = {
   container: {
     color: "#fff",
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    minHeight: "100vh",
+    minHeight: "50vh",
     padding: "40px",
-    background: "linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%)", // 与HomePage一致的深色渐变背景
     position: "relative",
     display: "flex",
     justifyContent: "center",
@@ -49,12 +48,11 @@ const styles = {
     color: "#4a90e2", // 蓝色标题，与HomePage一致
     letterSpacing: "2px",
     marginBottom: "20px",
-    textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)", // 与HomePage标题一致
   },
   subtitle: {
     fontSize: "18px",
     lineHeight: "1.6",
-    color: "#e0e0e0", // 较浅的白色，与HomePage描述一致
+    color: "black", // 较浅的白色，与HomePage描述一致
     marginBottom: "30px",
     opacity: 0.9,
   },

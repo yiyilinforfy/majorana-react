@@ -30,7 +30,7 @@ function ForumPage() {
     <div style={styles.container}>
       <iframe
         ref={iframeRef}
-        src="http://192.168.1.188:4567/recent"
+        src="https://forum.majorana.fun/recent"
         width="100%"
         frameBorder="0"
         style={styles.iframe}

@@ -221,6 +221,7 @@ const styles = {
     padding: "40px",
     background: "#fff", // 白色背景
     position: "relative",
+    background: "linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%)"
   },
   newsContent: {
     maxWidth: "1400px",

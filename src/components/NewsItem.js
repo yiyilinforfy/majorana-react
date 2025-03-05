@@ -42,7 +42,7 @@ function NewsItem({ article }) {
 
   const handleReadMore = () => {
     window.open(article.url, "_blank", "noopener,noreferrer"); // 跳转到原文章
-    setOpenDialog(false); // 可选：跳转后关闭对话框
+    // setOpenDialog(false); // 可选：跳转后关闭对话框
   };
 
   const handleCloseDialog = () => {

@@ -250,7 +250,7 @@ const styles = {
     position: "relative",
   },
   content: {
-    maxWidth: "1400px",
+    // maxWidth: "1400px",
     margin: "0 auto",
     padding: "0 20px",
   },

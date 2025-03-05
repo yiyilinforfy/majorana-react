@@ -46,7 +46,7 @@ function HomePage() {
 
   const handleReadMore = () => {
     window.open(article.url, "_blank", "noopener,noreferrer"); // 跳转到原文章
-    setOpenDialog(false); // 可选：跳转后关闭对话框
+    // setOpenDialog(false); // 可选：跳转后关闭对话框
   };
 
   const getValidImage = (imageUrl) =>
@@ -453,7 +453,7 @@ const styles = {
     fontWeight: "600",
   },
   introSection: {
-    maxWidth: "1400px",
+    // maxWidth: "1400px",
     margin: "0 auto 60px",
   },
   introGrid: {
@@ -488,7 +488,7 @@ const styles = {
     color: "#666",
   },
   content: {
-    maxWidth: "1400px",
+    // maxWidth: "1400px",
     margin: "0 auto",
   },
   sectionHeader: {

@@ -39,7 +39,7 @@ const styles = {
     alignItems: "center",
   },
   content: {
-    maxWidth: "800px",
+    // maxWidth: "800px",
     textAlign: "center",
   },
   title: {

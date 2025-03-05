@@ -8,7 +8,7 @@
  */
 import React from "react";
 import { Link } from "react-router-dom";
-import "../style/Header.css"; // 保留外部CSS引用
+
 
 function Header() {
   return (

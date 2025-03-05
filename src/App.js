@@ -20,7 +20,6 @@ import "./index.css";
 
 function App() {
   return (
-    <AuthProvider>
       <Router>
         <div className="app">
           <Header />
@@ -33,7 +32,6 @@ function App() {
           </Routes>
         </div>
       </Router>
-    </AuthProvider>
   );
 }
 

@@ -210,8 +210,12 @@ function Footer() {
             </p>
           </div>
           <div style={styles.links}>
-            <a href="mailto:majorana.fun@gmail.com" style={styles.footerLink}>
-              Contact Us
+            <a 
+              href="https://x.com/halotss" 
+              style={styles.footerLink}
+              target="_blank"
+            >
+              Follow us on X
             </a>
             <span
               onClick={() => handleOpenDialog(privacyPolicyContent)}
@@ -254,7 +258,7 @@ const styles = {
     zIndex: 100,
   },
   footerContent: {
-    maxWidth: "1400px",
+    // maxWidth: "1400px",
     margin: "0 auto",
     display: "flex",
     justifyContent: "space-between",

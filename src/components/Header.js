@@ -1,9 +1,10 @@
 import { color } from "framer-motion";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Header() {
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const location = useLocation();
 
   const handleMouseEnter = (menu) => {
     setActiveDropdown(menu);
@@ -11,6 +12,10 @@ function Header() {
 
   const handleMouseLeave = () => {
     setActiveDropdown(null);
+  };
+
+  const isActive = (path) => {
+    return location.pathname === path;
   };
 
   return (
@@ -35,10 +40,16 @@ function Header() {
             </span>
             {activeDropdown === 'learn' && (
               <div style={styles.dropdown}>
-                <Link to="/intro" style={styles.dropdownItem}>
+                <Link to="/intro" style={{
+                  ...styles.dropdownItem,
+                  ...(isActive('/intro') && styles.activeDropdownItem)
+                }}>
                  What is Majorana?
                 </Link>
-                <Link to="/resources" style={styles.dropdownItem}>
+                <Link to="/resources" style={{
+                  ...styles.dropdownItem,
+                  ...(isActive('/resources') && styles.activeDropdownItem)
+                }}>
                  Get-Started Resources
                 </Link>   
               </div>
@@ -56,7 +67,10 @@ function Header() {
             </span>
             {activeDropdown === 'community' && (
               <div style={styles.dropdown}>
-                <Link to="/forum" style={styles.dropdownItem}>Majorana Lab Forum</Link>
+                <Link to="/forum" style={{
+                  ...styles.dropdownItem,
+                  ...(isActive('/forum') && styles.activeDropdownItem)
+                }}>Majorana Lab Forum</Link>
                 <a href="https://x.com/halotss" target="_blank" rel="noopener noreferrer" style={styles.dropdownItem}>
                   Our Twitter
                   <i className="fa-solid fa-arrow-up-right-from-square" style={{marginLeft: '4px', fontSize: '0.8em'}}></i>
@@ -76,7 +90,10 @@ function Header() {
             </span>
             {activeDropdown === 'news' && (
               <div style={styles.dropdown}>
-                <Link to="/articles" style={styles.dropdownItem}>All Articles</Link>
+                <Link to="/articles" style={{
+                  ...styles.dropdownItem,
+                  ...(isActive('/articles') && styles.activeDropdownItem)
+                }}>All Articles</Link>
                 {/* <Link to="/today-on-x" style={styles.dropdownItem}>Today on X</Link> */}
               </div>
             )}
@@ -191,6 +208,11 @@ const styles = {
     "&:hover": {
       backgroundColor: "#f5f8ff",
     },
+  },
+  activeDropdownItem: {
+    backgroundColor: "#f5f8ff",
+    color: "#2a5bd7",
+    fontWeight: "bold",
   },
   twitterLink: {
     display: "flex",

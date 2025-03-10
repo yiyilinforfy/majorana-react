@@ -10,10 +10,12 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
-import NewsPage from "./pages/NewsPage";
+import ArticlesPage from "./pages/ArticlesPage";
 import ForumPage from "./pages/ForumPage";
 import ResourcesPage from "./pages/ResourcesPage";
+import IntroPage from "./pages/IntroPage";
 import NotFoundPage from "./pages/NotFoundPage"; // 导入NotFoundPage
+import Footer from "./components/Footer";
 import { AuthProvider } from "./contexts/AuthContext";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./index.css";
@@ -25,11 +27,13 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/news" element={<NewsPage />} />
+            <Route path="/intro" element={<IntroPage />} />
+            <Route path="/articles" element={<ArticlesPage />} />
             <Route path="/forum" element={<ForumPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
+          <Footer />
         </div>
       </Router>
   );

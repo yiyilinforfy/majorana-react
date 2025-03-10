@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Footer from "../components/Footer";
 import { get } from "@/utils/api";
 
 function ForumPage() {
@@ -48,7 +47,6 @@ function ForumPage() {
         style={{ ...styles.iframe, visibility: isLoading ? 'hidden' : 'visible' }} // 加载时隐藏 iframe
         onLoad={handleIframeLoad} // 监听加载完成事件
       />
-      <Footer />
     </div>
   );
 }

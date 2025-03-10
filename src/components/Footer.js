@@ -24,7 +24,7 @@ function Footer() {
         Last Updated: February 25, 2025
       </Typography>
       <Typography variant="body1" paragraph>
-        At MAJORANA.FUN, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website, which provides quantum computing news, forums, and educational resources.
+        At Majorana Lab, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website, which provides quantum computing news, forums, and educational resources.
       </Typography>
       <List dense>
         <ListItem>
@@ -49,7 +49,7 @@ function Footer() {
               <>
                 <List dense>
                   <ListItem><Typography variant="body2">- To provide and improve our services, such as delivering quantum computing news and managing forum discussions.</Typography></ListItem>
-                  <ListItem><Typography variant="body2">- To communicate with you, including responding to inquiries sent to majorana.fun@gmail.com.</Typography></ListItem>
+                  <ListItem><Typography variant="body2">- To communicate with you, including responding to inquiries sent to majorana.lab@gmail.com.</Typography></ListItem>
                   <ListItem><Typography variant="body2">- To analyze site usage and enhance user experience.</Typography></ListItem>
                 </List>
               </>
@@ -79,7 +79,7 @@ function Footer() {
         <ListItem>
           <ListItemText
             primary={<Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>5. Your Rights</Typography>}
-            secondary="You may request access, correction, or deletion of your data by contacting us at majorana.fun@gmail.com."
+            secondary="You may request access, correction, or deletion of your data by contacting us at majorana.lab@gmail.com."
           />
         </ListItem>
         <ListItem>
@@ -99,7 +99,7 @@ function Footer() {
         Contact Us
       </Typography>
       <Typography variant="body2">
-        For questions, email us at majorana.fun@gmail.com.
+        For questions, email us at majorana.lab@gmail.com.
       </Typography>
     </>
   );
@@ -115,7 +115,7 @@ function Footer() {
         Last Updated: February 25, 2025
       </Typography>
       <Typography variant="body1" paragraph>
-        Welcome to MAJORANA.FUN! These Terms of Service govern your use of our website, which offers quantum computing news, a user forum, and educational resources. By accessing our site, you agree to these terms.
+        Welcome to Majorana Lab! These Terms of Service govern your use of our website, which offers quantum computing news, a user forum, and educational resources. By accessing our site, you agree to these terms.
       </Typography>
       <List dense>
         <ListItem>
@@ -151,7 +151,7 @@ function Footer() {
               <>
                 <List dense>
                   <ListItem><Typography variant="body2">- User-Generated Content: Posts in our forum are your responsibility. Do not post illegal, offensive, or infringing material.</Typography></ListItem>
-                  <ListItem><Typography variant="body2">- Our Content: News and resources on MAJORANA.FUN are for personal, non-commercial use. Do not reproduce without permission.</Typography></ListItem>
+                  <ListItem><Typography variant="body2">- Our Content: News and resources on Majorana Lab are for personal, non-commercial use. Do not reproduce without permission.</Typography></ListItem>
                 </List>
               </>
             }
@@ -186,7 +186,7 @@ function Footer() {
         Contact Us
       </Typography>
       <Typography variant="body2">
-        For questions, email majorana.fun@gmail.com.
+        For questions, email majorana.lab@gmail.com.
       </Typography>
     </>
   );
@@ -206,7 +206,7 @@ function Footer() {
         <div style={styles.footerContent}>
           <div style={styles.copyright}>
             <p style={styles.copyrightText}>
-              © 2025 MAJORANA.FUN. All rights reserved.
+              © 2025 Majorana.Lab. All rights reserved.
             </p>
           </div>
           <div style={styles.links}>

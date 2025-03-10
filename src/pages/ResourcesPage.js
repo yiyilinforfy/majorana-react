@@ -1,145 +1,180 @@
 import React from "react";
-import Footer from "../components/Footer";
 
 function ResourcesPage() {
   return (
-    <div>
-          <div style={styles.container}>
-      <div style={styles.content}>
-        <h1 style={styles.title}>Quantum Computing Educational Resources</h1>
+    <div style={styles.container}>
+      <div style={styles.header}>
+        <h1 style={styles.mainTitle}>Quantum Computing Educational Resources</h1>
         <p style={styles.subtitle}>
-          Explore tutorials, videos, and recommended resources to dive into the world of quantum computing. Join us at Majorana.fun to unlock the future of technology!
+          Explore tutorials, videos, and recommended resources to dive into the world of quantum computing. Join us at Majorana Lab to unlock the future of technology!
         </p>
+        <div style={styles.scrollIndicator}>
+          <i className="fas fa-chevron-down" style={styles.scrollArrow}></i>
+        </div>
+      </div>
 
+      <div style={styles.content}>
         {/* Universities Section */}
-        <section style={styles.section}>
-          <h2 style={styles.sectionHeading}>Leading Universities</h2>
+        <div style={styles.section}>
+          <h2 style={styles.sectionTitle}>Leading Universities</h2>
           <div style={styles.resourceGrid}>
             <div style={styles.resourceCard}>
-              <h3 style={styles.resourceTitle}>Harvard University</h3>
-              <p style={styles.resourceText}>
-                Quantum Optics, Quantum Communication, Quantum Materials, and Quantum Sensing.
-              </p>
-              <a
-                href="https://quantum.harvard.edu/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={styles.resourceLink}
-              >
-                Visit Website
-              </a>
+              <div style={styles.cardContent}>
+                <h3 style={styles.resourceTitle}>Harvard University</h3>
+                <p style={styles.resourceText}>
+                  Quantum Optics, Quantum Communication, Quantum Materials, and Quantum Sensing.
+                </p>
+              </div>
+              <div style={styles.cardFooter}>
+                <a
+                  href="https://quantum.harvard.edu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.resourceLink}
+                >
+                  Visit Website
+                </a>
+              </div>
             </div>
             <div style={styles.resourceCard}>
-              <h3 style={styles.resourceTitle}>University of Cambridge</h3>
-              <p style={styles.resourceText}>
-                Quantum Algorithms and Complexity, Quantum Networks, Quantum Measurement, and Quantum Cryptography.
-              </p>
-              <a
-                href="https://www.cam.ac.uk/topics/quantum-computing"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={styles.resourceLink}
-              >
-                Visit Website
-              </a>
+              <div style={styles.cardContent}>
+                <h3 style={styles.resourceTitle}>University of Cambridge</h3>
+                <p style={styles.resourceText}>
+                  Quantum Algorithms and Complexity, Quantum Networks, Quantum Measurement, and Quantum Cryptography.
+                </p>
+              </div>
+              <div style={styles.cardFooter}>
+                <a
+                  href="https://www.cam.ac.uk/topics/quantum-computing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.resourceLink}
+                >
+                  Visit Website
+                </a>
+              </div>
             </div>
             <div style={styles.resourceCard}>
-              <h3 style={styles.resourceTitle}>University of Oxford</h3>
-              <p style={styles.resourceText}>
-                Quantum Computing Hardware, Quantum Information Processing, Quantum Error Correction, and Quantum Cryptography.
-              </p>
-              <a
-                href="https://www.physics.ox.ac.uk/research/theme/quantum-information-and-computation"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={styles.resourceLink}
-              >
-                Visit Website
-              </a>
+              <div style={styles.cardContent}>
+                <h3 style={styles.resourceTitle}>University of Oxford</h3>
+                <p style={styles.resourceText}>
+                  Quantum Computing Hardware, Quantum Information Processing, Quantum Error Correction, and Quantum Cryptography.
+                </p>
+              </div>
+              <div style={styles.cardFooter}>
+                <a
+                  href="https://www.physics.ox.ac.uk/research/theme/quantum-information-and-computation"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.resourceLink}
+                >
+                  Visit Website
+                </a>
+              </div>
             </div>
             <div style={styles.resourceCard}>
-              <h3 style={styles.resourceTitle}>Princeton University</h3>
-              <p style={styles.resourceText}>
-                Quantum Materials, Topological Quantum Computing, Quantum Theory, and Experimental Quantum Physics.
-              </p>
-              <a
-                href="https://quantum.princeton.edu/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={styles.resourceLink}
-              >
-                Visit Website
-              </a>
+              <div style={styles.cardContent}>
+                <h3 style={styles.resourceTitle}>Princeton University</h3>
+                <p style={styles.resourceText}>
+                  Quantum Materials, Topological Quantum Computing, Quantum Theory, and Experimental Quantum Physics.
+                </p>
+              </div>
+              <div style={styles.cardFooter}>
+                <a
+                  href="https://quantum.princeton.edu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.resourceLink}
+                >
+                  Visit Website
+                </a>
+              </div>
             </div>
             <div style={styles.resourceCard}>
-              <h3 style={styles.resourceTitle}>Massachusetts Institute of Technology</h3>
-              <p style={styles.resourceText}>
-                Quantum Algorithms, Quantum Error Correction, Quantum Materials, and Quantum Hardware Development.
-              </p>
-              <a
-                href="https://cqe.mit.edu/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={styles.resourceLink}
-              >
-                Visit Website
-              </a>
+              <div style={styles.cardContent}>
+                <h3 style={styles.resourceTitle}>Massachusetts Institute of Technology</h3>
+                <p style={styles.resourceText}>
+                  Quantum Algorithms, Quantum Error Correction, Quantum Materials, and Quantum Hardware Development.
+                </p>
+              </div>
+              <div style={styles.cardFooter}>
+                <a
+                  href="https://cqe.mit.edu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.resourceLink}
+                >
+                  Visit Website
+                </a>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Organizations Section */}
-        <section style={styles.section}>
-          <h2 style={styles.sectionHeading}>Organizations and Companies</h2>
+        <div style={styles.section}>
+          <h2 style={styles.sectionTitle}>Organizations and Companies</h2>
           <div style={styles.resourceGrid}>
             <div style={styles.resourceCard}>
-              <h3 style={styles.resourceTitle}>Microsoft Quantum Team</h3>
-              <p style={styles.resourceText}>
-                Topological Quantum Computing, Quantum Programming Languages, Quantum Tools Development, and Quantum Cryptography.
-              </p>
-              <a
-                href="https://azure.microsoft.com/en-us/solutions/quantum-computing/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={styles.resourceLink}
-              >
-                Visit Website
-              </a>
+              <div style={styles.cardContent}>
+                <h3 style={styles.resourceTitle}>Microsoft Quantum Team</h3>
+                <p style={styles.resourceText}>
+                  Topological Quantum Computing, Quantum Programming Languages, Quantum Tools Development, and Quantum Cryptography.
+                </p>
+              </div>
+              <div style={styles.cardFooter}>
+                <a
+                  href="https://azure.microsoft.com/en-us/solutions/quantum-computing/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.resourceLink}
+                >
+                  Visit Website
+                </a>
+              </div>
             </div>
             <div style={styles.resourceCard}>
-              <h3 style={styles.resourceTitle}>Google Quantum AI</h3>
-              <p style={styles.resourceText}>
-                Quantum Supremacy, Quantum Simulations, Quantum Error Correction, and Quantum Machine Learning.
-              </p>
-              <a
-                href="https://quantumai.google/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={styles.resourceLink}
-              >
-                Visit Website
-              </a>
+              <div style={styles.cardContent}>
+                <h3 style={styles.resourceTitle}>Google Quantum AI</h3>
+                <p style={styles.resourceText}>
+                  Quantum Supremacy, Quantum Simulations, Quantum Error Correction, and Quantum Machine Learning.
+                </p>
+              </div>
+              <div style={styles.cardFooter}>
+                <a
+                  href="https://quantumai.google/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.resourceLink}
+                >
+                  Visit Website
+                </a>
+              </div>
             </div>
             <div style={styles.resourceCard}>
-              <h3 style={styles.resourceTitle}>IBM Quantum</h3>
-              <p style={styles.resourceText}>
-                Quantum Hardware Development, Quantum Cloud Computing, Quantum Algorithms, and Quantum Software.
-              </p>
-              <a
-                href="https://www.ibm.com/quantum-computing/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={styles.resourceLink}
-              >
-                Visit Website
-              </a>
+              <div style={styles.cardContent}>
+                <h3 style={styles.resourceTitle}>IBM Quantum</h3>
+                <p style={styles.resourceText}>
+                  Quantum Hardware Development, Quantum Cloud Computing, Quantum Algorithms, and Quantum Software.
+                </p>
+              </div>
+              <div style={styles.cardFooter}>
+                <a
+                  href="https://www.ibm.com/quantum-computing/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.resourceLink}
+                >
+                  Visit Website
+                </a>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Video Tutorials Section */}
-        <section style={styles.section}>
-          <h2 style={styles.sectionHeading}>Video Tutorials</h2>
+        <div style={styles.section}>
+          <h2 style={styles.sectionTitle}>Video Tutorials</h2>
           <div style={styles.resourceGrid}>
             <div style={styles.resourceCard}>
               <iframe
@@ -151,10 +186,12 @@ function ResourcesPage() {
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               ></iframe>
-              <h3 style={styles.resourceTitle}>Majorana 1 Explained</h3>
-              <p style={styles.resourceText}>
-                A video explaining Microsoft's path to a million qubits with Majorana-based quantum computing.
-              </p>
+              <div style={styles.cardContent}>
+                <h3 style={styles.resourceTitle}>Majorana 1 Explained</h3>
+                <p style={styles.resourceText}>
+                  A video explaining Microsoft's path to a million qubits with Majorana-based quantum computing.
+                </p>
+              </div>
             </div>
             <div style={styles.resourceCard}>
               <iframe
@@ -166,17 +203,19 @@ function ResourcesPage() {
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               ></iframe>
-              <h3 style={styles.resourceTitle}>Coding with Qiskit</h3>
-              <p style={styles.resourceText}>
-                YouTube series by IBM, showing how to write quantum algorithms for beginners and programmers.
-              </p>
+              <div style={styles.cardContent}>
+                <h3 style={styles.resourceTitle}>Coding with Qiskit</h3>
+                <p style={styles.resourceText}>
+                  YouTube series by IBM, showing how to write quantum algorithms for beginners and programmers.
+                </p>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Books Section */}
-        <section style={styles.section}>
-          <h2 style={styles.sectionHeading}>Recommended Books</h2>
+        <div style={styles.section}>
+          <h2 style={styles.sectionTitle}>Recommended Books</h2>
           <div style={styles.resourceGrid}>
             <div style={styles.bookCard}>
               <img
@@ -194,14 +233,16 @@ function ResourcesPage() {
                 <p style={styles.resourceText}>
                   The "bible" of quantum computing, ideal for readers with a math background.
                 </p>
-                <a
-                  href="https://www.cambridge.org/highereducation/books/quantum-computation-and-quantum-information/01E10196D0A682A6AEFFEA52D53BE9AE#overview"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={styles.resourceLink}
-                >
-                  Learn More
-                </a>
+                <div style={styles.cardFooter}>
+                  <a
+                    href="https://www.cambridge.org/highereducation/books/quantum-computation-and-quantum-information/01E10196D0A682A6AEFFEA52D53BE9AE#overview"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={styles.resourceLink}
+                  >
+                    Learn More
+                  </a>
+                </div>
               </div>
             </div>
             <div style={styles.bookCard}>
@@ -220,166 +261,157 @@ function ResourcesPage() {
                 <p style={styles.resourceText}>
                   A beginner-friendly book requiring minimal quantum mechanics knowledge.
                 </p>
-                <a
-                  href="https://global.oup.com/academic/product/an-introduction-to-quantum-computing-9780198570004"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={styles.resourceLink}
-                >
-                  Learn More
-                </a>
+                <div style={styles.cardFooter}>
+                  <a
+                    href="https://global.oup.com/academic/product/an-introduction-to-quantum-computing-9780198570004"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={styles.resourceLink}
+                  >
+                    Learn More
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
-    <Footer />
-  </div>
-
   );
 }
 
 const styles = {
   container: {
-    color: "#333",
-    fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    minHeight: "100vh",
-    padding: "40px",
-    background: "linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%)", // 浅色渐变背景
-    position: "relative",
+    margin: '0 auto',
+    fontFamily: "'Roboto', sans-serif",
   },
-  content: {
-    // maxWidth: "1400px",
-    margin: "0 auto",
-    padding: "0 20px",
+  header: {
+    textAlign: 'center',
+    padding: '120px 20px 80px',
+    backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.85)), url("/background/resource.jpeg")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
+    position: 'relative',
   },
-  title: {
-    fontSize: "36px",
-    fontWeight: "700",
-    color: "#2a5bd7",
-    letterSpacing: "1px",
-    marginBottom: "20px",
-    textAlign: "center",
-    textShadow: "0 2px 4px rgba(42, 91, 215, 0.2)",
+  mainTitle: {
+    fontSize: '3.2em',
+    color: '#ffffff',
+    marginBottom: '20px',
+    textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
   },
   subtitle: {
-    fontSize: "18px",
-    lineHeight: "1.6",
-    color: "#555",
-    marginBottom: "60px",
-    textAlign: "center",
-    maxWidth: "800px",
-    margin: "0 auto 60px",
+    fontSize: '1.4em',
+    color: '#e0e7ff',
+    maxWidth: '800px',
+    margin: '0 auto',
+    textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+  },
+  scrollIndicator: {
+    position: 'absolute',
+    bottom: '30px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    animation: 'bounce 2s infinite',
+  },
+  scrollArrow: {
+    color: '#ffffff',
+    fontSize: '24px',
+    opacity: '0.8',
+  },
+  content: {
+    background: 'linear-gradient(180deg, #1a1f2e 0%, #ffffff 300px)',
+    padding: '60px 20px',
   },
   section: {
-    marginBottom: "80px",
+    maxWidth: '1200px',
+    margin: '0 auto 50px',
+    background: '#ffffff',
+    borderRadius: '12px',
+    padding: '30px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
   },
-  sectionHeading: {
-    fontSize: "28px",
-    fontWeight: "600",
-    color: "#2a5bd7",
-    marginBottom: "40px",
-    textAlign: "center",
-    position: "relative",
-    "&::after": {
-      content: '""',
-      display: "block",
-      width: "60px",
-      height: "3px",
-      background: "linear-gradient(90deg, #2a5bd7, #00d4ff)",
-      margin: "10px auto",
-      borderRadius: "2px",
-    },
+  sectionTitle: {
+    fontSize: '2em',
+    color: '#2a5bd7',
+    marginBottom: '30px',
+    textAlign: 'center',
   },
   resourceGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-    gap: "40px",
-    justifyContent: "center",
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gap: '60px',
+    margin: '20px 0',
   },
   resourceCard: {
-    background: "#fff",
-    borderRadius: "12px",
-    padding: "25px",
-    boxShadow: "0 6px 15px rgba(0, 0, 0, 0.08)",
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    minHeight: "300px",
-    "&:hover": {
-      transform: "translateY(-8px)",
-      boxShadow: "0 12px 25px rgba(0, 0, 0, 0.15)",
+    background: '#ffffff',
+    borderRadius: '8px',
+    padding: '20px',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    transition: 'transform 0.3s ease',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    '&:hover': {
+      transform: 'translateY(-5px)',
     },
   },
-  bookCard: {
-    display: "flex",
-    flexDirection: "row",
-    background: "#fff",
-    borderRadius: "12px",
-    boxShadow: "0 6px 15px rgba(0, 0, 0, 0.08)",
-    overflow: "hidden",
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-    "&:hover": {
-      transform: "translateY(-8px)",
-      boxShadow: "0 12px 25px rgba(0, 0, 0, 0.15)",
-    },
+  cardContent: {
+    flex: '1 0 auto',
+  },
+  cardFooter: {
+    // marginTop: '20px',
   },
   resourceTitle: {
-    fontSize: "20px",
-    fontWeight: "600",
-    marginBottom: "10px",
-    color: "#333",
+    fontSize: '1.2em',
+    color: '#2a5bd7',
+    marginBottom: '10px',
   },
   resourceText: {
-    fontSize: "15px",
-    lineHeight: "1.5",
-    color: "#666",
-    marginBottom: "20px",
-    flexGrow: 1,
+    color: '#666666',
+    lineHeight: '1.6',
+    marginBottom: '15px',
   },
   resourceLink: {
-    color: "#fff",
-    background: "linear-gradient(45deg, #2a5bd7, #00d4ff)",
-    padding: "8px 16px",
-    textAlign: "center",
-    borderRadius: "20px",
-    textDecoration: "none",
-    display: "inline-block",
-    transition: "background 0.3s ease, transform 0.3s ease",
-    fontWeight: "600",
-    fontSize: "14px",
-    "&:hover": {
-      background: "linear-gradient(45deg, #1e429f, #00b4d8)",
-      transform: "translateY(-2px)",
+    display: 'inline-block',
+    padding: '8px 16px',
+    background: '#2a5bd7',
+    color: '#ffffff',
+    textDecoration: 'none',
+    borderRadius: '4px',
+    transition: 'background 0.3s ease',
+    '&:hover': {
+      background: '#1e429f',
     },
   },
   videoFrame: {
-    width: "100%",
-    height: "330px",
-    borderRadius: "8px",
-    border: "none",
-    marginBottom: "15px",
+    width: '100%',
+    height: '300px',
+    borderRadius: '8px',
+    marginBottom: '15px',
+  },
+  bookCard: {
+    display: 'flex',
+    background: '#ffffff',
+    borderRadius: '8px',
+    overflow: 'hidden',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    height: '100%',
   },
   bookImage: {
-    width: "180px",
-    height: "270px",
-    objectFit: "cover",
-    borderRadius: "8px 0 0 8px",
+    width: '180px', // Increased from 120px
+    objectFit: 'cover',
   },
   bookContent: {
-    padding: "20px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
+    padding: '20px',
     flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
   },
   resourceAuthor: {
-    fontSize: "14px",
-    color: "#888",
-    marginBottom: "10px",
-    fontStyle: "italic",
+    color: '#888888',
+    fontSize: '0.9em',
+    marginBottom: '10px',
   },
 };
 

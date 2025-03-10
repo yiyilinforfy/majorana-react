@@ -31,7 +31,7 @@ const styles = {
   container: {
     color: "#fff",
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    minHeight: "50vh",
+    minHeight: "100vh",
     padding: "40px",
     position: "relative",
     display: "flex",

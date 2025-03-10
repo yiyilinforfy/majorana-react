@@ -1,66 +1,120 @@
-/*
- * @Author: linyi 1195190035@qq.com
- * @Date: 2025-02-21 19:58:55
- * @LastEditors: linyi 1195190035@qq.com
- * @LastEditTime: 2025-02-24 22:15:42
- * @FilePath: \majorana-react\src\components\Header.js
- * @Description: Header component with logo on the left and optimized UI
- */
-import React from "react";
+import { color } from "framer-motion";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-
 function Header() {
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  const handleMouseEnter = (menu) => {
+    setActiveDropdown(menu);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveDropdown(null);
+  };
+
   return (
     <nav style={styles.nav}>
       <div style={styles.logoContainer}>
         <Link to="/" style={styles.logoLink}>
           <div style={styles.logoWrapper}>
             <img src="/logo.jpg" alt="Majorana Logo" style={styles.logo} />
-            <span style={styles.siteName}>MAJORANA.FUN</span>
+            <span style={styles.siteName}>Majorana Lab</span>
           </div>
         </Link>
+
+        <ul style={styles.navList}>
+          <li 
+            style={styles.navItem} 
+            onMouseEnter={() => handleMouseEnter('learn')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <span style={styles.link}>
+              Learn
+              <span style={styles.dropdownArrow}>▼</span>
+            </span>
+            {activeDropdown === 'learn' && (
+              <div style={styles.dropdown}>
+                <Link to="/intro" style={styles.dropdownItem}>
+                 What is Majorana?
+                </Link>
+                <Link to="/resources" style={styles.dropdownItem}>
+                 Get-Started Resources
+                </Link>   
+              </div>
+            )}
+          </li>
+
+          <li 
+            style={styles.navItem}
+            onMouseEnter={() => handleMouseEnter('community')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <span style={styles.link}>
+              Community
+              <span style={styles.dropdownArrow}>▼</span>
+            </span>
+            {activeDropdown === 'community' && (
+              <div style={styles.dropdown}>
+                <Link to="/forum" style={styles.dropdownItem}>Majorana Lab Forum</Link>
+                <a href="https://x.com/halotss" target="_blank" rel="noopener noreferrer" style={styles.dropdownItem}>
+                  Our Twitter
+                  <i className="fa-solid fa-arrow-up-right-from-square" style={{marginLeft: '4px', fontSize: '0.8em'}}></i>
+                </a>
+              </div>
+            )}
+          </li>
+
+          <li 
+            style={styles.navItem}
+            onMouseEnter={() => handleMouseEnter('news')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <span style={styles.link}>
+              News
+              <span style={styles.dropdownArrow}>▼</span>
+            </span>
+            {activeDropdown === 'news' && (
+              <div style={styles.dropdown}>
+                <Link to="/articles" style={styles.dropdownItem}>All Articles</Link>
+                {/* <Link to="/today-on-x" style={styles.dropdownItem}>Today on X</Link> */}
+              </div>
+            )}
+          </li>
+        </ul>
       </div>
-      <ul style={styles.navList}>
-        <li style={styles.navItem}>
-          <Link to="/" style={styles.link}>
-            HOME
-          </Link>
-        </li>
-        <li style={styles.navItem}>
-          <Link to="/news" style={styles.link}>
-            NEWS
-          </Link>
-        </li>
-        <li style={styles.navItem}>
-          <Link to="/forum" style={styles.link}>
-            FORUM
-          </Link>
-        </li>
-        <li style={styles.navItem}>
-          <Link to="/resources" style={styles.link}>
-            RESOURCES
-          </Link>
-        </li>
-      </ul>
+      
+   
+
+      <a 
+        href="https://x.com/halotss" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        style={styles.twitterLink}
+        title="Follow us on X (Twitter)"
+      >
+        <i className="fa-brands fa-x-twitter" style={styles.twitterIcon}></i>
+      </a>
     </nav>
   );
 }
 
 const styles = {
   nav: {
-    background: "rgb(243.9, 244.2, 244.8)", // 白色背景，与页面一致
+    background: "rgb(243.9, 244.2, 244.8)",
     padding: "20px 40px",
     position: "sticky",
     top: 0,
     zIndex: 1000,
-    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)", // 轻微阴影，增加层次感
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
   },
   logoContainer: {
     flexShrink: 0,
+    display: "flex",
+    alignItems: "center",
   },
   logoLink: {
     textDecoration: "none",
@@ -72,40 +126,83 @@ const styles = {
     alignItems: "center",
   },
   logo: {
-    height: "30px", // 增大logo以匹配导航高度
+    height: "30px",
     width: "auto",
     display: "block",
   },
   siteName: {
-    color: "black", // 蓝色，与主题一致
-    fontSize: "22px", // 增大字体，与导航一致
-    fontWeight: "700", // 加粗，与导航一致
+    color: "black",
+    fontSize: "22px",
+    fontWeight: "700",
     marginLeft: "12px",
-    textTransform: "uppercase", // 大写，与导航一致
-    letterSpacing: "1px", // 增加字母间距，提升现代感
+    textTransform: "uppercase",
+    letterSpacing: "1px",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
   },
   navList: {
     listStyle: "none",
     display: "flex",
     margin: 0,
+    marginLeft: '40px',
     padding: 0,
-    gap: "30px", // 减小间距，紧凑布局
+    gap: "10px",
   },
   navItem: {
     display: "flex",
     alignItems: "center",
+    position: "relative",
   },
   link: {
     textDecoration: "none",
-    color: "#2a5bd7", // 蓝色，与网站名称一致
-    fontSize: "18px", // 增大字体，更显眼
-    fontWeight: "700", // 加粗，突出导航
-    padding: "8px 12px", // 增加点击区域
-    borderRadius: "6px", // 轻微圆角
+    color: "#2a5bd7",
+    fontSize: "18px",
+    fontWeight: "700",
+    padding: "8px 12px",
+    borderRadius: "6px",
+    cursor: "pointer",
     transition: "background-color 0.3s ease, color 0.3s ease",
+    display: "flex",
+    alignItems: "center",
+    fontFamily: "'Roboto', sans-serif",
+  },
+  dropdownArrow: {
+    fontSize: "10px",
+    marginLeft: "5px",
+    color: "#2a5bd7",
+  },
+  dropdown: {
+    position: "absolute",
+    top: "100%",
+    left: "0",
+    background: "white",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+    borderRadius: "8px",
+    padding: "8px 0",
+    minWidth: "200px",
+    zIndex: 1001,
+  },
+  dropdownItem: {
+    display: "block",
+    padding: "10px 16px",
+    color: "black",
+    textDecoration: "none",
+    fontSize: "13px",
+    transition: "background-color 0.2s ease",
     "&:hover": {
-      backgroundColor: "#e6f0ff", // 浅蓝色背景悬停效果
-      color: "#1e429f", // 深蓝色文字
+      backgroundColor: "#f5f8ff",
+    },
+  },
+  twitterLink: {
+    display: "flex",
+    alignItems: "center",
+    marginLeft: "20px",
+  },
+  twitterIcon: {
+    fontSize: "24px",
+    color: "black",
+    transition: "opacity 0.2s ease",
+    "&:hover": {
+      opacity: 0.8,
     },
   },
 };

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Footer from "../components/Footer";
 import { Tooltip } from "react-tooltip";
 import { motion } from "framer-motion";
 import Particles from "react-particles";
@@ -16,8 +15,8 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import SmartToyIcon from "@mui/icons-material/SmartToy"; // AI 图标
-import OpenInNewIcon from "@mui/icons-material/OpenInNew"; // 用于跳转图标
+import SmartToyIcon from "@mui/icons-material/SmartToy";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 function HomePage() {
   const [news, setNews] = useState([]);
@@ -45,8 +44,7 @@ function HomePage() {
   };
 
   const handleReadMore = () => {
-    window.open(article.url, "_blank", "noopener,noreferrer"); // 跳转到原文章
-    // setOpenDialog(false); // 可选：跳转后关闭对话框
+    window.open(article.url, "_blank", "noopener,noreferrer");
   };
 
   const getValidImage = (imageUrl) =>
@@ -54,9 +52,8 @@ function HomePage() {
       ? imageUrl
       : "/defaultNews.jpg";
   
-  // 添加图片加载失败的处理函数
   const handleImageError = (e) => {
-    e.target.src = "/defaultNews.jpg"; // 加载失败时使用默认图片
+    e.target.src = "/defaultNews.jpg";
   };
 
   const handleSummarize = async (url) => {
@@ -90,7 +87,7 @@ function HomePage() {
       image: "/quantum-computing.jpeg",
     },
     {
-      title: "Majorana Fermions",
+      title: "Majorana Fermions", 
       description: "Elusive particles enabling fault-tolerant quantum computation.",
       image: "/majorana-fermions.jpg",
     },
@@ -149,7 +146,6 @@ function HomePage() {
   return (
     <div>
       <div style={styles.container}>
-        {/* 英雄区域 */}
         <header style={styles.header}>
           <Particles
             id="tsparticles"
@@ -161,6 +157,7 @@ function HomePage() {
               left: 0,
               width: "100%",
               height: "100%",
+              zIndex: 1
             }}
           />
           <motion.div
@@ -169,31 +166,34 @@ function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <h1 style={styles.title}>MAJORANA.FUN</h1>
-            <h2 style={styles.subtitle}>INTRODUCING MAJORANA</h2>
+            <h1 style={styles.title}>Majorana Lab</h1>
+            <h2 style={styles.subtitle}>Exploring the Quantum Frontier</h2>
             <p style={styles.description}>
-              Quantum Computing & Majorana Fermions: Explore cutting-edge concepts, learn about fault-tolerant quantum computation, and join our community.
+              Pioneering quantum computing research through Majorana fermions and fault-tolerant quantum computation.
             </p>
             <div style={styles.buttons}>
-              <button
-                style={styles.getStartedButton}
+              <Button
+                variant="contained"
                 onClick={() => (window.location.href = "/resources")}
+                sx={styles.primaryButton}
               >
-                GET STARTED
-              </button>
-              <button
-                style={styles.exploreButton}
+                Get Started
+              </Button>
+              <Button
+                variant="outlined"
                 onClick={() => (window.location.href = "/forum")}
+                sx={styles.secondaryButton}
               >
-                EXPLORE MORE
-              </button>
+                Explore More
+              </Button>
             </div>
           </motion.div>
         </header>
 
-        {/* 介绍区域 */}
         <section style={styles.introSection}>
-          <h2 style={styles.sectionTitle}>Discover the Future</h2>
+          <Typography variant="h2" sx={styles.sectionTitle}>
+            Discover the Future
+          </Typography>
           <div style={styles.introGrid}>
             {introCards.map((card, index) => (
               <motion.div
@@ -203,270 +203,233 @@ function HomePage() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
                 whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
+                  scale: 1.03,
+                  boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
                 }}
               >
                 <img src={card.image} alt={card.title} style={styles.introImage} />
                 <div style={styles.introText}>
-                  <h3 style={styles.introTitle}>{card.title}</h3>
-                  <p style={styles.introDescription}>{card.description}</p>
+                  <Typography variant="h3" sx={styles.introTitle}>
+                    {card.title}
+                  </Typography>
+                  <Typography variant="body1" sx={styles.introDescription}>
+                    {card.description}
+                  </Typography>
                 </div>
               </motion.div>
             ))}
           </div>
         </section>
 
-        {/* 新闻区域 */}
-        <section style={styles.content}>
+        <section style={styles.newsSection}>
           <div style={styles.sectionHeader}>
-            <h2 style={styles.sectionTitle}>Latest Breakthroughs</h2>
-            <button
+            <Typography variant="h2" sx={styles.sectionTitle}>
+              Latest Breakthroughs
+            </Typography>
+            <Button
+              variant="outlined"
               onClick={() => (window.location.href = "/news")}
-              style={styles.seeMoreButton}
+              sx={styles.seeMoreButton}
             >
               See More News
-            </button>
+            </Button>
           </div>
           {loading ? (
-            <div style={styles.loading}>Loading...</div>
+            <Box sx={styles.loading}>
+              <CircularProgress />
+            </Box>
           ) : (
             <div style={styles.newsGrid}>
               {news.map((item, index) => (
-                <a
-                  href={item.url}
-                  target="_blank"
+                <motion.div
                   key={item.id || index}
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: "none" }}
+                  style={styles.newsCard}
+                  whileHover={{
+                    y: -10,
+                    boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
+                  }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <motion.div
-                    style={styles.newsCard}
-                    whileHover={{
-                      y: -10,
-                      boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
-                    }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <img
-                      src={getValidImage(item.image)}
-                      alt={item.title}
-                      style={styles.cardImage}
-                      onError={handleImageError} // 添加错误处理
-                    />
-                    <div style={styles.cardContent}> {/* 添加内容容器 */}
-                      <h3 style={styles.cardTitle} data-tip={item.title}>
-                        {item.title}
-                      </h3>
+                  <img
+                    src={getValidImage(item.image)}
+                    alt={item.title}
+                    style={styles.cardImage}
+                    onError={handleImageError}
+                  />
+                  <div style={styles.cardContent}>
+                    <Typography variant="h6" sx={styles.cardTitle} data-tip={item.title}>
+                      {item.title}
+                    </Typography>
+                    <Box sx={styles.cardActions}>
                       <Button
-                        size="small"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleSummarize(item.url);
-                        }}
-                        sx={{
-                          position: "absolute",
-                          bottom: "10px",
-                          right: "10px",
-                          color: "#1a73e8",
-                          textTransform: "none",
-                          fontSize: "12px",
-                          padding: "4px 10px",
-                          "&:hover": {
-                            backgroundColor: "rgba(26, 115, 232, 0.1)",
-                          },
-                        }}
+                        variant="text"
+                        onClick={() => handleSummarize(item.url)}
+                        startIcon={<SmartToyIcon />}
+                        sx={styles.aiButton}
                       >
-                        <SmartToyIcon sx={{ fontSize: "16px", marginRight: "4px" }} />
-                        AI Summarize
+                        AI Summary
                       </Button>
-                    </div>
-                    <Tooltip place="top" type="dark" effect="float" />
-                  </motion.div>
-                </a>
+                      <Button
+                        variant="text"
+                        onClick={() => window.open(item.url, "_blank")}
+                        endIcon={<OpenInNewIcon />}
+                        sx={styles.readButton}
+                      >
+                        Read More
+                      </Button>
+                    </Box>
+                  </div>
+                  <Tooltip place="top" type="dark" effect="float" />
+                </motion.div>
               ))}
             </div>
           )}
         </section>
       </div>
 
-      {/* AI Summarize 对话框 */}
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
         maxWidth="sm"
         fullWidth
         PaperProps={{
-          sx: {
-            background: "linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%)",
-            color: "#fff",
-            borderRadius: "15px",
-            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
-            border: "1px solid rgba(74, 144, 226, 0.3)",
-          },
+          sx: styles.dialogPaper
         }}
       >
-        <Box sx={{ position: "relative", padding: "20px" }}>
+        <Box sx={styles.dialogContent}>
           <IconButton
             onClick={handleCloseDialog}
-            sx={{ position: "absolute", top: "10px", right: "10px", color: "#fff" }}
+            sx={styles.closeButton}
           >
             <CloseIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            sx={{
-              textAlign: "center",
-              fontWeight: "bold",
-              background: "linear-gradient(45deg, #1a73e8, #00d4ff)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              marginBottom: "20px",
-            }}
-          >
+          <Typography variant="h6" sx={styles.dialogTitle}>
             AI Generated Summary
           </Typography>
           <DialogContent sx={{ padding: 0 }}>
             {summaryLoading ? (
-              <Box sx={{ display: "flex", justifyContent: "center", padding: "20px" }}>
+              <Box sx={styles.summaryLoading}>
                 <CircularProgress sx={{ color: "#00d4ff" }} />
               </Box>
             ) : (
-              <Typography
-                variant="body1"
-                sx={{
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  padding: "15px",
-                  borderRadius: "10px",
-                  fontSize: "16px",
-                  lineHeight: "1.6",
-                  backdropFilter: "blur(5px)",
-                }}
-              >
+              <Typography variant="body1" sx={styles.summaryText}>
                 {summary}
               </Typography>
             )}
           </DialogContent>
           {!summaryLoading && (
-            <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+            <Box sx={styles.dialogActions}>
               <Button
                 variant="outlined"
                 onClick={handleReadMore}
-                sx={{
-                  color: "#00d4ff",
-                  borderColor: "#00d4ff",
-                  textTransform: "none",
-                  fontWeight: "bold",
-                  padding: "6px 16px",
-                  borderRadius: "20px",
-                  "&:hover": {
-                    backgroundColor: "rgba(0, 212, 255, 0.1)",
-                    borderColor: "#1a73e8",
-                  },
-                }}
+                sx={styles.readMoreButton}
+                startIcon={<OpenInNewIcon />}
               >
-                <OpenInNewIcon sx={{ fontSize: "18px", marginRight: "5px" }} />
-                Interested? Read the full article
+                Read Full Article
               </Button>
             </Box>
           )}
         </Box>
       </Dialog>
-
-      <Footer />
     </div>
   );
 }
 
 const styles = {
   container: {
-    color: "#333",
-    fontFamily: "'Helvetica Neue', Arial, sans-serif",
     minHeight: "100vh",
-    padding: "40px",
-    background: "#fff",
-    position: "relative",
+    background: "linear-gradient(180deg, #0a192f 0%, #112240 100%)",
+    color: "#e6f1ff",
+    padding: "0",
   },
   header: {
     position: "relative",
-    padding: "0",
-    borderRadius: "12px",
-    marginBottom: "60px",
-    backgroundImage: "url(/main.jpg)",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+    height: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     overflow: "hidden",
+    background: "linear-gradient(135deg, rgba(10,25,47,0.95) 0%, rgba(17,34,64,0.95) 100%)",
   },
   headerContent: {
-    position: "relative",
-    textAlign: "left",
+    maxWidth: "1200px",
+    padding: "0 2rem",
+    textAlign: "center",
     zIndex: 2,
-    background: "linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4))",
-    padding: "60px",
-    borderRadius: "12px",
   },
   title: {
-    zIndex: 2,
-    fontSize: "56px",
-    margin: "0",
-    fontWeight: "bold",
-    color: "#2a5bd7",
-    letterSpacing: "2px",
+    fontSize: "4.5rem",
+    fontWeight: "700",
+    background: "linear-gradient(45deg, #64ffda, #00b4d8)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    marginBottom: "1rem",
   },
   subtitle: {
-    fontSize: "28px",
-    margin: "15px 0 25px",
-    color: "#666",
-    opacity: "0.9",
+    fontSize: "2rem",
+    color: "#8892b0",
+    marginBottom: "2rem",
   },
   description: {
-    fontSize: "18px",
-    lineHeight: "1.8",
-    margin: "0 0 40px 0",
-    color: "#333",
+    fontSize: "1.25rem",
+    color: "#8892b0",
+    maxWidth: "800px",
+    margin: "0 auto 3rem",
+    lineHeight: 1.6,
   },
   buttons: {
     display: "flex",
-    gap: "25px",
+    gap: "1.5rem",
+    justifyContent: "center",
   },
-  getStartedButton: {
-    backgroundColor: "#2a5bd7",
-    color: "#fff",
-    border: "none",
-    padding: "15px 35px",
-    fontSize: "16px",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease, transform 0.3s ease",
+  primaryButton: {
+    background: "linear-gradient(45deg, #64ffda, #00b4d8)",
+    color: "#0a192f",
+    padding: "0.8rem 2rem",
+    fontSize: "1rem",
     fontWeight: "600",
+    borderRadius: "4px",
+    textTransform: "none",
+    "&:hover": {
+      background: "linear-gradient(45deg, #00b4d8, #64ffda)",
+    },
   },
-  exploreButton: {
-    backgroundColor: "transparent",
-    color: "#2a5bd7",
-    border: "2px solid #2a5bd7",
-    padding: "15px 35px",
-    fontSize: "16px",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease, color 0.3s ease",
+  secondaryButton: {
+    border: "2px solid #64ffda",
+    color: "#64ffda",
+    padding: "0.8rem 2rem",
+    fontSize: "1rem",
     fontWeight: "600",
+    borderRadius: "4px",
+    textTransform: "none",
+    "&:hover": {
+      background: "rgba(100, 255, 218, 0.1)",
+    },
   },
   introSection: {
-    // maxWidth: "1400px",
-    margin: "0 auto 60px",
+    padding: "6rem 2rem",
+    background: "#112240",
+  },
+  sectionTitle: {
+    fontSize: "2.5rem",
+    fontWeight: "700",
+    color: "#e6f1ff",
+    textAlign: "center",
+    marginBottom: "3rem",
   },
   introGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-    gap: "30px",
+    gap: "2rem",
+    maxWidth: "1200px",
+    margin: "0 auto",
   },
   introCard: {
-    backgroundColor: "#f9f9f9",
-    borderRadius: "12px",
+    background: "rgba(17, 34, 64, 0.7)",
+    borderRadius: "8px",
     overflow: "hidden",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-    transition: "all 0.3s ease",
+    backdropFilter: "blur(10px)",
+    border: "1px solid rgba(100, 255, 218, 0.1)",
   },
   introImage: {
     width: "100%",
@@ -474,93 +437,144 @@ const styles = {
     objectFit: "cover",
   },
   introText: {
-    padding: "20px",
+    padding: "1.5rem",
   },
   introTitle: {
-    fontSize: "24px",
-    fontWeight: "bold",
-    margin: "0 0 10px",
-    color: "#2a5bd7",
+    fontSize: "1.5rem",
+    color: "#64ffda",
+    marginBottom: "1rem",
   },
   introDescription: {
-    fontSize: "16px",
-    lineHeight: "1.6",
-    color: "#666",
+    color: "#8892b0",
+    lineHeight: 1.6,
   },
-  content: {
-    // maxWidth: "1400px",
-    margin: "0 auto",
+  newsSection: {
+    padding: "6rem 2rem",
+    background: "#0a192f",
   },
   sectionHeader: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "20px",
-  },
-  sectionTitle: {
-    fontSize: "32px",
-    fontWeight: "700",
-    color: "#2a5bd7",
-    letterSpacing: "1px",
+    maxWidth: "1200px",
+    margin: "0 auto 3rem",
   },
   seeMoreButton: {
-    backgroundColor: "transparent",
-    color: "#2a5bd7",
-    border: "2px solid #2a5bd7",
-    padding: "10px 25px",
-    fontSize: "16px",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease, color 0.3s ease",
-    fontWeight: "600",
+    color: "#64ffda",
+    borderColor: "#64ffda",
+    "&:hover": {
+      borderColor: "#64ffda",
+      background: "rgba(100, 255, 218, 0.1)",
+    },
   },
   newsGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(480px, 1fr))",
-    gap: "70px",
-    padding: "20px 0",
+    gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+    gap: "2rem",
+    maxWidth: "1200px",
+    margin: "0 auto",
   },
   newsCard: {
-    borderRadius: "12px",
+    background: "rgba(17, 34, 64, 0.7)",
+    borderRadius: "8px",
     overflow: "hidden",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-    backgroundColor: "#fff",
-    position: "relative",
-    display: "flex", // 添加 flex 布局
-    flexDirection: "column", // 垂直排列
+    backdropFilter: "blur(10px)",
+    border: "1px solid rgba(100, 255, 218, 0.1)",
   },
   cardImage: {
     width: "100%",
     height: "200px",
     objectFit: "cover",
-    display: "block", // 确保图片始终显示为块级元素
   },
-  cardContent: { // 新增内容容器样式
-    padding: "15px",
-    position: "relative",
-    flex: 1, // 允许内容区域扩展
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between", // 确保标题和按钮分隔开
-    minHeight: "120px", // 设置最小高度
+  cardContent: {
+    padding: "1.5rem",
   },
   cardTitle: {
-    fontSize: "19px",
-    fontWeight: "bold",
-    margin: "0 0 10px 0", // 修改 margin，确保与按钮有间距
-    lineHeight: "1.4",
-    color: "#333",
+    color: "#e6f1ff",
+    fontSize: "1.1rem",
+    marginBottom: "1rem",
     display: "-webkit-box",
-    WebkitLineClamp: "2",
+    WebkitLineClamp: 2,
     WebkitBoxOrient: "vertical",
     overflow: "hidden",
-    textOverflow: "ellipsis",
+  },
+  cardActions: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "1rem",
+  },
+  aiButton: {
+    color: "#64ffda",
+    "&:hover": {
+      background: "rgba(100, 255, 218, 0.1)",
+    },
+  },
+  readButton: {
+    color: "#8892b0",
+    "&:hover": {
+      color: "#64ffda",
+      background: "rgba(100, 255, 218, 0.1)",
+    },
   },
   loading: {
+    display: "flex",
+    justifyContent: "center",
+    padding: "3rem",
+  },
+  dialogPaper: {
+    background: "linear-gradient(135deg, #0a192f 0%, #112240 100%)",
+    color: "#e6f1ff",
+    borderRadius: "12px",
+    border: "1px solid rgba(100, 255, 218, 0.2)",
+  },
+  dialogContent: {
+    position: "relative",
+    padding: "2rem",
+  },
+  closeButton: {
+    position: "absolute",
+    top: "1rem",
+    right: "1rem",
+    color: "#8892b0",
+    "&:hover": {
+      color: "#64ffda",
+    },
+  },
+  dialogTitle: {
     textAlign: "center",
-    fontSize: "20px",
-    padding: "40px",
-    color: "#2a5bd7",
+    fontWeight: "bold",
+    background: "linear-gradient(45deg, #64ffda, #00b4d8)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    marginBottom: "1.5rem",
+  },
+  summaryLoading: {
+    display: "flex",
+    justifyContent: "center",
+    padding: "2rem",
+  },
+  summaryText: {
+    background: "rgba(17, 34, 64, 0.7)",
+    padding: "1.5rem",
+    borderRadius: "8px",
+    fontSize: "1rem",
+    lineHeight: 1.6,
+    color: "#8892b0",
+  },
+  dialogActions: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "1.5rem",
+  },
+  readMoreButton: {
+    color: "#64ffda",
+    borderColor: "#64ffda",
+    borderRadius: "20px",
+    textTransform: "none",
+    "&:hover": {
+      borderColor: "#64ffda",
+      background: "rgba(100, 255, 218, 0.1)",
+    },
   },
 };
 

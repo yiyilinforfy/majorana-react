@@ -69,13 +69,10 @@ function NewsItem({ article }) {
             {article.title}
           </a>
 
-          <Tooltip
-            title={<Typography variant="body2">{article.summary || article.description || ""}</Typography>}
-            placement="top"
-            arrow
-          >
-            <p className="description">{article.summary || article.description || ""}</p>
-          </Tooltip>
+          <p className="description">
+            {article.summary || article.description || ""}
+          </p>
+
 
           <div className="meta">
             {article.author && (

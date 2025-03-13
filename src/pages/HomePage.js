@@ -228,10 +228,10 @@ function HomePage() {
             </Typography>
             <Button
               variant="outlined"
-              onClick={() => (window.location.href = "/news")}
+              onClick={() => (window.location.href = "/articles")}
               sx={styles.seeMoreButton}
             >
-              See More News
+              See More
             </Button>
           </div>
           {loading ? (

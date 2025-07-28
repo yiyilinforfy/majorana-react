@@ -33,7 +33,13 @@ function NewsPage() {
       setTotalNews(totalNews);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching news:", error);
+      // 如果是 304，可能需要自己处理（某些请求库不会自动识别）
+      if (error.response?.status === 304) {
+        console.log("✅ News not modified, using cached data.");
+        // 可以保留旧数据不更新 UI
+      } else {
+        console.error("Error fetching news:", error);
+      }
       setLoading(false);
     }
   };
@@ -517,23 +523,5 @@ const styles = {
     padding: "20px",
   },
 };
-
-const keyframes = `
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-      transform: translateY(0);
-    }
-    40% {
-      transform: translateY(-30px);
-    }
-    60% {
-      transform: translateY(-15px);
-    }
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-`;
 
 export default NewsPage;

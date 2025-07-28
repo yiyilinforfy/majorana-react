@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Tooltip } from "react-tooltip";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Particles from "react-particles";
 import { loadFull } from "tsparticles";
 import { get, post } from "@/utils/api";
@@ -9,18 +8,22 @@ import {
   Button,
   Dialog,
   DialogContent,
-  Box,
   IconButton,
   CircularProgress,
   Typography,
+  Container,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { CalendarClock, Building } from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
 
 function HomePage() {
   const [news, setNews] = useState([]);
+  const [tweets, setTweets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [tweetsLoading, setTweetsLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
   const [summary, setSummary] = useState("");
   const [summaryLoading, setSummaryLoading] = useState(false);
@@ -28,6 +31,7 @@ function HomePage() {
 
   useEffect(() => {
     fetchNews();
+    fetchTweets();
   }, []);
 
   const fetchNews = async () => {
@@ -43,28 +47,43 @@ function HomePage() {
     }
   };
 
+  const fetchTweets = async () => {
+    try {
+      const response = await get("/api/tweet/get");
+      let tweets = response?.rss?.channel?.item || [];
+      setTweets(tweets.slice(0, 4));
+      setTweetsLoading(false);
+    } catch (error) {
+      console.error("Error fetching tweets:", error);
+      setTweetsLoading(false);
+    }
+  };
+
   const handleReadMore = () => {
-    window.open(article.url, "_blank", "noopener,noreferrer");
+    window.open(selectedUrl, "_blank", "noopener,noreferrer");
   };
 
   const getValidImage = (imageUrl) =>
     imageUrl && imageUrl !== "None" && imageUrl !== "undefined" && imageUrl.trim()
       ? imageUrl
       : "/defaultNews.jpg";
-  
+
   const handleImageError = (e) => {
     e.target.src = "/defaultNews.jpg";
   };
 
-  const handleSummarize = async (url) => {
-    setSelectedUrl(url);
+  const handleSummarize = async (item) => {
+    setSelectedUrl(item.url);
     setOpenDialog(true);
     setSummaryLoading(true);
     setSummary("");
 
     try {
       const response = await post("/api/news/summarize", {
-        url,
+        id: item.paperId,
+        authors: item.authors || [],
+        title: item.title,
+        publishedAt: item.publishedAt,
       });
       setSummary(response.summary);
     } catch (error) {
@@ -87,7 +106,7 @@ function HomePage() {
       image: "/quantum-computing.jpeg",
     },
     {
-      title: "Majorana Fermions", 
+      title: "Majorana Fermions",
       description: "Elusive particles enabling fault-tolerant quantum computation.",
       image: "/majorana-fermions.jpg",
     },
@@ -104,7 +123,7 @@ function HomePage() {
 
   const particlesOptions = {
     background: { color: { value: "transparent" } },
-    fpsLimit: 60,
+    fpsLimit: 120,
     interactivity: {
       events: {
         onClick: { enable: true, mode: "push" },
@@ -112,16 +131,16 @@ function HomePage() {
       },
       modes: {
         push: { quantity: 4 },
-        repulse: { distance: 100, duration: 0.4 },
+        repulse: { distance: 200, duration: 0.4 },
       },
     },
     particles: {
-      color: { value: "#2a5bd7" },
+      color: { value: ["#3498db", "#2ecc71", "#9b59b6", "#f1c40f"] },
       links: {
-        color: "#2a5bd7",
+        color: "#3498db",
         distance: 150,
         enable: true,
-        opacity: 0.5,
+        opacity: 0.4,
         width: 1,
       },
       collisions: { enable: true },
@@ -130,89 +149,147 @@ function HomePage() {
         enable: true,
         outModes: "bounce",
         random: false,
-        speed: 0.5,
+        speed: 1.5,
+        straight: false,
       },
       number: {
         density: { enable: true, area: 800 },
-        value: 80,
+        value: 60,
       },
       opacity: { value: 0.5 },
-      shape: { type: "circle" },
-      size: { value: { min: 1, max: 5 } },
+      shape: { type: ["circle", "triangle"] },
+      size: { value: { min: 1, max: 3 } },
     },
     detectRetina: true,
   };
 
   return (
-    <div>
-      <div style={styles.container}>
-        <header style={styles.header}>
-          <Particles
-            id="tsparticles"
-            init={particlesInit}
-            options={particlesOptions}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              zIndex: 1
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white text-gray-800 font-['Orbitron']">
+      <header style={styles.header} className="relative min-h-[60vh] sm:min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 to-cyan-50">
+        <Particles
+          id="tsparticles"
+          init={particlesInit}
+          options={particlesOptions}
+          className="absolute inset-0 pointer-events-none"
+        />
+        <motion.div
+          className="max-w-6xl mx-auto px-4 sm:px-6 text-center z-10"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <motion.h1
+            className="text-4xl sm:text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent mb-4 sm:mb-6"
+            animate={{
+              textShadow: ["0 0 20px #3498db", "0 0 40px #3498db", "0 0 20px #3498db"],
             }}
-          />
-          <motion.div
-            style={styles.headerContent}
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 2, repeat: Infinity }}
           >
-            <h1 style={styles.title}>Majorana Lab</h1>
-            <h2 style={styles.subtitle}>Exploring the Quantum Frontier</h2>
-            <p style={styles.description}>
-              Pioneering quantum computing research through Majorana fermions and fault-tolerant quantum computation.
-            </p>
-            <div style={styles.buttons}>
-              <Button
-                variant="contained"
-                onClick={() => (window.location.href = "/resources")}
-                sx={styles.primaryButton}
-              >
-                Get Started
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={() => (window.location.href = "/forum")}
-                sx={styles.secondaryButton}
-              >
-                Explore More
-              </Button>
-            </div>
+            Majorana Lab
+          </motion.h1>
+          <motion.h2
+            className="text-xl sm:text-2xl md:text-2xl text-blue-500 font-medium mb-6 sm:mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            Exploring the Quantum Frontier
+          </motion.h2>
+          <motion.p
+            className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            Pioneering quantum computing research through Majorana fermions and fault-tolerant quantum computation.
+          </motion.p>
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1 }}
+          >
+            <Button
+              variant="contained"
+              onClick={() => (window.location.href = "/resources")}
+              sx={{
+                background: "linear-gradient(45deg, #2196f3, #00bcd4)",
+                color: "#ffffff",
+                padding: { xs: "0.5rem 1.5rem", sm: "0.75rem 2rem" },
+                fontSize: { xs: "0.9rem", sm: "1rem" },
+                fontWeight: "700",
+                borderRadius: "50px",
+                textTransform: "none",
+                boxShadow: "0 5px 15px rgba(33, 150, 243, 0.4)",
+                "&:hover": {
+                  background: "linear-gradient(45deg, #00bcd4, #2196f3)",
+                  boxShadow: "0 8px 25px rgba(33, 150, 243, 0.6)",
+                },
+              }}
+            >
+              Get Started
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => (window.open("https://forum.zebi.ai/category/5/majorana-quantum-computing") )}
+              sx={{
+                border: "2px solid #2196f3",
+                color: "#2196f3",
+                padding: { xs: "0.5rem 1.5rem", sm: "0.75rem 2rem" },
+                fontSize: { xs: "0.9rem", sm: "1rem" },
+                fontWeight: "700",
+                borderRadius: "50px",
+                textTransform: "none",
+                "&:hover": {
+                  background: "rgba(33, 150, 243, 0.1)",
+                  borderColor: "#00bcd4",
+                  color: "#00bcd4",
+                },
+              }}
+            >
+              Explore More
+            </Button>
           </motion.div>
-        </header>
+        </motion.div>
+      </header>
 
-        <section style={styles.introSection}>
-          <Typography variant="h2" sx={styles.sectionTitle}>
-            Discover the Future
-          </Typography>
-          <div style={styles.introGrid}>
+      <Container maxWidth="xl" sx={{ position: "relative", zIndex: 10, background: "#ffffff" }}>
+        <section className="py-8 sm:py-12 md:py-16 bg-gradient-to-b from-white to-gray-50">
+        <Typography
+          variant="h2"
+          className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent mb-12 sm:mb-16 md:mb-24 lg:mb-32"
+        >
+          Discover the Future
+        </Typography>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10 max-w-6xl mx-auto">
             {introCards.map((card, index) => (
               <motion.div
                 key={index}
-                style={styles.introCard}
+                className="bg-white rounded-2xl overflow-hidden shadow-lg border border-blue-100/20 hover:shadow-2xl transition-all duration-300"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                whileHover={{
-                  scale: 1.03,
-                  boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
-                }}
+                whileHover={{ scale: 1.05, boxShadow: "0 10px 40px rgba(52, 152, 219, 0.3)" }}
               >
-                <img src={card.image} alt={card.title} style={styles.introImage} />
-                <div style={styles.introText}>
-                  <Typography variant="h3" sx={styles.introTitle}>
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="w-full h-40 sm:h-48 object-cover"
+                  />
+                </motion.div>
+                <div className="p-4 sm:p-6">
+                  <Typography
+                    variant="h5"
+                    className="text-lg sm:text-xl text-blue-700 font-semibold mb-3"
+                  >
                     {card.title}
                   </Typography>
-                  <Typography variant="body1" sx={styles.introDescription}>
+                  <Typography className="text-gray-600 text-sm sm:text-base leading-relaxed">
                     {card.description}
                   </Typography>
                 </div>
@@ -221,71 +298,149 @@ function HomePage() {
           </div>
         </section>
 
-        <section style={styles.newsSection}>
-          <div style={styles.sectionHeader}>
-            <Typography variant="h2" sx={styles.sectionTitle}>
-              Latest Breakthroughs
+        <section className="py-8 sm:py-12 md:py-16 bg-white">
+          <div className="flex flex-col sm:flex-row justify-between items-center max-w-6xl mx-auto mb-8 sm:mb-12">
+            <Typography
+              variant="h2"
+              className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent"
+            >
+              Latest News
             </Typography>
             <Button
               variant="outlined"
-              onClick={() => (window.location.href = "/articles")}
-              sx={styles.seeMoreButton}
+              onClick={() => (window.location.href = "/news")}
+              className="mt-4 sm:mt-0 text-blue-600 border-blue-600 rounded-full px-4 py-2 text-sm sm:text-base hover:bg-blue-50 hover:border-cyan-500 hover:text-cyan-500 transition-all"
             >
               See More
             </Button>
           </div>
-          {loading ? (
-            <Box sx={styles.loading}>
-              <CircularProgress />
-            </Box>
+          {tweetsLoading ? (
+            <div className="flex justify-center py-8">
+              <CircularProgress sx={{ color: "#3498db" }} />
+            </div>
           ) : (
-            <div style={styles.newsGrid}>
-              {news.map((item, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-6xl mx-auto">
+              {tweets.slice(0, 6).map((tweet, index) => (
                 <motion.div
-                  key={item.id || index}
-                  style={styles.newsCard}
-                  whileHover={{
-                    y: -10,
-                    boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
-                  }}
-                  transition={{ type: "spring", stiffness: 300 }}
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <img
-                    src={getValidImage(item.image)}
-                    alt={item.title}
-                    style={styles.cardImage}
-                    onError={handleImageError}
-                  />
-                  <div style={styles.cardContent}>
-                    <Typography variant="h6" sx={styles.cardTitle} data-tip={item.title}>
-                      {item.title}
-                    </Typography>
-                    <Box sx={styles.cardActions}>
-                      <Button
-                        variant="text"
-                        onClick={() => handleSummarize(item.url)}
-                        startIcon={<SmartToyIcon />}
-                        sx={styles.aiButton}
+                  <div className="bg-white rounded-2xl shadow-lg border border-blue-100/10 p-5 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                      <div className="flex items-center text-blue-600 font-medium">
+                        <Building size={16} className="mr-2" />
+                        <a
+                          href={tweet.source?.$.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm hover:text-cyan-500"
+                        >
+                          {tweet.source?._}
+                        </a>
+                      </div>
+                      <div className="flex items-center text-gray-500 text-xs mt-2 sm:mt-0">
+                        <CalendarClock size={14} className="mr-1" />
+                        {formatDistanceToNow(new Date(tweet.pubDate), { addSuffix: true })}
+                      </div>
+                    </div>
+                    <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 line-clamp-2">{tweet.title}</h2>
+                    <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+                      {tweet.description.replace(/<[^>]+>/g, '')}
+                    </p>
+                    <div className="border-t border-blue-100/10 pt-4">
+                      <a
+                        href={tweet.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 text-sm font-medium hover:text-cyan-500"
                       >
-                        AI Summary
-                      </Button>
-                      <Button
-                        variant="text"
-                        onClick={() => window.open(item.url, "_blank")}
-                        endIcon={<OpenInNewIcon />}
-                        sx={styles.readButton}
-                      >
-                        Read More
-                      </Button>
-                    </Box>
+                        View More
+                      </a>
+                    </div>
                   </div>
-                  <Tooltip place="top" type="dark" effect="float" />
                 </motion.div>
               ))}
             </div>
           )}
         </section>
-      </div>
+
+        <section className="py-8 sm:py-12 md:py-16 bg-white">
+          <div className="flex flex-col sm:flex-row justify-between items-center max-w-6xl mx-auto mb-8 sm:mb-12">
+            <Typography
+              variant="h2"
+              className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent"
+            >
+              Research
+            </Typography>
+            <Button
+              variant="outlined"
+              onClick={() => (window.location.href = "/articles")}
+              className="mt-4 sm:mt-0 text-blue-600 border-blue-600 rounded-full px-4 py-2 text-sm sm:text-base hover:bg-blue-50 hover:border-cyan-500 hover:text-cyan-500 transition-all"
+            >
+              See More
+            </Button>
+          </div>
+          {loading ? (
+            <div className="flex justify-center py-8">
+              <CircularProgress sx={{ color: "#3498db" }} />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              <AnimatePresence>
+                {news.map((item, index) => (
+                  <motion.div
+                    key={item.id || index}
+                    className="bg-white rounded-2xl overflow-hidden shadow-lg border border-blue-100/10 hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ y: -10, boxShadow: "0 10px 40px rgba(52, 152, 219, 0.2)" }}
+                  >
+                    <motion.img
+                      src={getValidImage(item.image)}
+                      alt={item.title}
+                      className="w-full h-40 sm:h-48 object-cover"
+                      onError={handleImageError}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    />
+                    <div className="p-4 sm:p-6">
+                      <Typography
+                        variant="h6"
+                        className="text-blue-700 text-sm sm:text-base font-medium line-clamp-2 mb-4"
+                        data-tip={item.title}
+                      >
+                        {item.title}
+                      </Typography>
+                      <div className="flex flex-col sm:flex-row justify-between gap-2">
+                        <Button
+                          variant="text"
+                          onClick={() => handleSummarize(item)}
+                          startIcon={<SmartToyIcon />}
+                          className="text-blue-600 font-semibold hover:text-cyan-500 hover:bg-blue-50 text-xs sm:text-sm"
+                        >
+                          AI Summary
+                        </Button>
+                        <Button
+                          variant="text"
+                          onClick={() => window.open(item.url, "_blank")}
+                          endIcon={<OpenInNewIcon />}
+                          className="text-gray-500 font-semibold hover:text-blue-600 hover:bg-blue-50 text-xs sm:text-sm"
+                        >
+                          Read More
+                        </Button>
+                      </div>
+                    </div>
+                    <Tooltip place="top" type="dark" effect="float" />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
+        </section>
+      </Container>
 
       <Dialog
         open={openDialog}
@@ -293,289 +448,68 @@ function HomePage() {
         maxWidth="sm"
         fullWidth
         PaperProps={{
-          sx: styles.dialogPaper
+          sx: {
+            background: "#ffffff",
+            color: "#37474f",
+            borderRadius: "20px",
+            boxShadow: "0 20px 60px rgba(33, 150, 243, 0.2)",
+            maxWidth: { xs: "90%", sm: "80%", md: "600px" },
+            margin: { xs: 2, sm: 4 },
+          },
         }}
       >
-        <Box sx={styles.dialogContent}>
+        <div className="relative p-4 sm:p-6">
           <IconButton
             onClick={handleCloseDialog}
-            sx={styles.closeButton}
+            className="absolute top-4 right-4 text-gray-500 hover:text-blue-600"
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6" sx={styles.dialogTitle}>
+          <Typography
+            variant="h6"
+            className="text-center font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent mb-4 sm:mb-6 text-lg sm:text-xl"
+          >
             AI Generated Summary
           </Typography>
-          <DialogContent sx={{ padding: 0 }}>
+          <DialogContent className="p-0">
             {summaryLoading ? (
-              <Box sx={styles.summaryLoading}>
-                <CircularProgress sx={{ color: "#00d4ff" }} />
-              </Box>
+              <div className="flex justify-center py-6">
+                <CircularProgress sx={{ color: "#3498db" }} />
+              </div>
             ) : (
-              <Typography variant="body1" sx={styles.summaryText}>
+              <Typography className="bg-gray-50 p-4 sm:p-6 rounded-xl text-gray-700 text-sm sm:text-base leading-relaxed">
                 {summary}
               </Typography>
             )}
           </DialogContent>
           {!summaryLoading && (
-            <Box sx={styles.dialogActions}>
+            <div className="flex justify-center mt-4 sm:mt-6">
               <Button
                 variant="outlined"
                 onClick={handleReadMore}
-                sx={styles.readMoreButton}
                 startIcon={<OpenInNewIcon />}
+                className="text-blue-600 border-blue-600 rounded-full px-4 sm:px-6 py-2 text-sm sm:text-base font-semibold hover:bg-blue-50 hover:border-cyan-500 hover:text-cyan-500"
               >
                 Read Full Article
               </Button>
-            </Box>
+            </div>
           )}
-        </Box>
+        </div>
       </Dialog>
     </div>
   );
 }
 
 const styles = {
-  container: {
-    minHeight: "100vh",
-    background: "linear-gradient(180deg, #0a192f 0%, #112240 100%)",
-    color: "#e6f1ff",
-    padding: "0",
-  },
   header: {
-    position: "relative",
-    height: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-    background: "linear-gradient(135deg, rgba(10,25,47,0.95) 0%, rgba(17,34,64,0.95) 100%)",
-  },
-  headerContent: {
-    maxWidth: "1200px",
-    padding: "0 2rem",
-    textAlign: "center",
-    zIndex: 2,
-  },
-  title: {
-    fontSize: "4.5rem",
-    fontWeight: "700",
-    background: "linear-gradient(45deg, #64ffda, #00b4d8)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    marginBottom: "1rem",
-  },
-  subtitle: {
-    fontSize: "2rem",
-    color: "#8892b0",
-    marginBottom: "2rem",
-  },
-  description: {
-    fontSize: "1.25rem",
-    color: "#8892b0",
-    maxWidth: "800px",
-    margin: "0 auto 3rem",
-    lineHeight: 1.6,
-  },
-  buttons: {
-    display: "flex",
-    gap: "1.5rem",
-    justifyContent: "center",
-  },
-  primaryButton: {
-    background: "linear-gradient(45deg, #64ffda, #00b4d8)",
-    color: "#0a192f",
-    padding: "0.8rem 2rem",
-    fontSize: "1rem",
-    fontWeight: "600",
-    borderRadius: "4px",
-    textTransform: "none",
-    "&:hover": {
-      background: "linear-gradient(45deg, #00b4d8, #64ffda)",
-    },
-  },
-  secondaryButton: {
-    border: "2px solid #64ffda",
-    color: "#64ffda",
-    padding: "0.8rem 2rem",
-    fontSize: "1rem",
-    fontWeight: "600",
-    borderRadius: "4px",
-    textTransform: "none",
-    "&:hover": {
-      background: "rgba(100, 255, 218, 0.1)",
-    },
-  },
-  introSection: {
-    padding: "6rem 2rem",
-    background: "#112240",
-  },
-  sectionTitle: {
-    fontSize: "2.5rem",
-    fontWeight: "700",
-    color: "#e6f1ff",
-    textAlign: "center",
-    marginBottom: "3rem",
-  },
-  introGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-    gap: "2rem",
-    maxWidth: "1200px",
-    margin: "0 auto",
-  },
-  introCard: {
-    background: "rgba(17, 34, 64, 0.7)",
-    borderRadius: "8px",
-    overflow: "hidden",
-    backdropFilter: "blur(10px)",
-    border: "1px solid rgba(100, 255, 218, 0.1)",
-  },
-  introImage: {
-    width: "100%",
-    height: "200px",
-    objectFit: "cover",
-  },
-  introText: {
-    padding: "1.5rem",
-  },
-  introTitle: {
-    fontSize: "1.5rem",
-    color: "#64ffda",
-    marginBottom: "1rem",
-  },
-  introDescription: {
-    color: "#8892b0",
-    lineHeight: 1.6,
-  },
-  newsSection: {
-    padding: "6rem 2rem",
-    background: "#0a192f",
-  },
-  sectionHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    maxWidth: "1200px",
-    margin: "0 auto 3rem",
-  },
-  seeMoreButton: {
-    color: "#64ffda",
-    borderColor: "#64ffda",
-    "&:hover": {
-      borderColor: "#64ffda",
-      background: "rgba(100, 255, 218, 0.1)",
-    },
-  },
-  newsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-    gap: "2rem",
-    maxWidth: "1200px",
-    margin: "0 auto",
-  },
-  newsCard: {
-    background: "rgba(17, 34, 64, 0.7)",
-    borderRadius: "8px",
-    overflow: "hidden",
-    backdropFilter: "blur(10px)",
-    border: "1px solid rgba(100, 255, 218, 0.1)",
-  },
-  cardImage: {
-    width: "100%",
-    height: "200px",
-    objectFit: "cover",
-  },
-  cardContent: {
-    padding: "1.5rem",
-  },
-  cardTitle: {
-    color: "#e6f1ff",
-    fontSize: "1.1rem",
-    marginBottom: "1rem",
-    display: "-webkit-box",
-    WebkitLineClamp: 2,
-    WebkitBoxOrient: "vertical",
-    overflow: "hidden",
-  },
-  cardActions: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "1rem",
-  },
-  aiButton: {
-    color: "#64ffda",
-    "&:hover": {
-      background: "rgba(100, 255, 218, 0.1)",
-    },
-  },
-  readButton: {
-    color: "#8892b0",
-    "&:hover": {
-      color: "#64ffda",
-      background: "rgba(100, 255, 218, 0.1)",
-    },
-  },
-  loading: {
-    display: "flex",
-    justifyContent: "center",
-    padding: "3rem",
-  },
-  dialogPaper: {
-    background: "linear-gradient(135deg, #0a192f 0%, #112240 100%)",
-    color: "#e6f1ff",
-    borderRadius: "12px",
-    border: "1px solid rgba(100, 255, 218, 0.2)",
-  },
-  dialogContent: {
-    position: "relative",
-    padding: "2rem",
-  },
-  closeButton: {
-    position: "absolute",
-    top: "1rem",
-    right: "1rem",
-    color: "#8892b0",
-    "&:hover": {
-      color: "#64ffda",
-    },
-  },
-  dialogTitle: {
-    textAlign: "center",
-    fontWeight: "bold",
-    background: "linear-gradient(45deg, #64ffda, #00b4d8)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    marginBottom: "1.5rem",
-  },
-  summaryLoading: {
-    display: "flex",
-    justifyContent: "center",
-    padding: "2rem",
-  },
-  summaryText: {
-    background: "rgba(17, 34, 64, 0.7)",
-    padding: "1.5rem",
-    borderRadius: "8px",
-    fontSize: "1rem",
-    lineHeight: 1.6,
-    color: "#8892b0",
-  },
-  dialogActions: {
-    display: "flex",
-    justifyContent: "center",
-    marginTop: "1.5rem",
-  },
-  readMoreButton: {
-    color: "#64ffda",
-    borderColor: "#64ffda",
-    borderRadius: "20px",
-    textTransform: "none",
-    "&:hover": {
-      borderColor: "#64ffda",
-      background: "rgba(100, 255, 218, 0.1)",
-    },
-  },
-};
+    textAlign: 'center',
+    padding: '120px 20px 80px',
+    backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.85)), url("/main.jpg")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
+    position: 'relative',
+  }
+}
 
 export default HomePage;

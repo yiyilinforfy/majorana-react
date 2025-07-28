@@ -189,7 +189,7 @@ function ResourcesPage() {
               <div style={styles.cardContent}>
                 <h3 style={styles.resourceTitle}>Majorana 1 Explained</h3>
                 <p style={styles.resourceText}>
-                  A video explaining Microsoft's path to a million qubits with Majorana-based quantum computing.
+                  A video explaining Microsoft&apos;s path to a million qubits with Majorana-based quantum computing.
                 </p>
               </div>
             </div>
@@ -231,7 +231,7 @@ function ResourcesPage() {
                   by Michael A. Nielsen & Isaac L. Chuang
                 </p>
                 <p style={styles.resourceText}>
-                  The "bible" of quantum computing, ideal for readers with a math background.
+                  The &quot;bible&quot; of quantum computing, ideal for readers with a math background.
                 </p>
                 <div style={styles.cardFooter}>
                   <a
@@ -391,7 +391,7 @@ const styles = {
     marginBottom: '15px',
   },
   bookCard: {
-    display: 'flex',
+    display: '',
     background: '#ffffff',
     borderRadius: '8px',
     overflow: 'hidden',
@@ -399,8 +399,10 @@ const styles = {
     height: '100%',
   },
   bookImage: {
-    width: '180px', // Increased from 120px
-    objectFit: 'cover',
+    width: '60%',
+    height: '400px',
+    margin: '0 auto',
+    borderRadius: '8px',
   },
   bookContent: {
     padding: '20px',

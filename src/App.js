@@ -16,8 +16,7 @@ import ResourcesPage from "./pages/ResourcesPage";
 import IntroPage from "./pages/IntroPage";
 import NotFoundPage from "./pages/NotFoundPage"; // 导入NotFoundPage
 import Footer from "./components/Footer";
-import QueryPage from "./pages/QueryPage";
-import TweetPage from "./pages/TweetPage";
+import { AuthProvider } from "./contexts/AuthContext";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./index.css";
 
@@ -32,8 +31,6 @@ function App() {
             <Route path="/articles" element={<ArticlesPage />} />
             <Route path="/forum" element={<ForumPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
-            <Route path="/query" element={<QueryPage />} />
-            <Route path="/news" element={<TweetPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
           <Footer />

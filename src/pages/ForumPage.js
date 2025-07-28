@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { get } from "@/utils/api";
 
 function ForumPage() {
   const iframeRef = useRef(null);
@@ -40,7 +41,7 @@ function ForumPage() {
       {/* iframe */}
       <iframe
         ref={iframeRef}
-        src="https://forum.zebi.ai/category/5/majorana-quantum-computing"
+        src="https://forum.majorana.fun/recent"
         width="100%"
         frameBorder="0"
         style={{ ...styles.iframe, visibility: isLoading ? 'hidden' : 'visible' }} // 加载时隐藏 iframe

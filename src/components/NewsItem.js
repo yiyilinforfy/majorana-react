@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "@/style/NewsItem.css";
 import {
+  Tooltip,
   Typography,
   Button,
   Dialog,
@@ -9,6 +10,7 @@ import {
   IconButton,
   CircularProgress, // 确保导入
 } from "@mui/material";
+import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew"; // 用于跳转图标
@@ -27,10 +29,7 @@ function NewsItem({ article }) {
   
     try {
       const response = await post("/api/news/summarize", {
-        id: article.paperId,
-        authors: article.authors || [],
-        title: article.title,
-        publishedAt: article.publishedAt
+        url: article.url,
       });
       setSummary(response.summary); // 直接访问 summary
     } catch (error) {
@@ -71,33 +70,30 @@ function NewsItem({ article }) {
           </a>
 
           <p className="description">
-            {article.abstract ||
-            article.openAccessPdf?.disclaimer?.slice(0, 180) + "..." ||
-            "No abstract available."}
+            {article.summary || article.description || ""}
           </p>
 
 
-
           <div className="meta">
-          {article.authors?.length > 0 && (
-            <span className="author">
-              <i className="fas fa-user" style={{ color: "#1a73e8", marginRight: "5px" }}></i>
-              {article.authors
-                .slice(0, 5)
-                .map((a) => a)
-                .join(", ")}
-              {article.authors.length > 5 && " et al."}
-            </span>
-          )}
-
+            {article.author && (
+              <span className="author">
+                <i className="fas fa-user" style={{ color: "#1a73e8", marginRight: "5px" }}></i>
+                {article.author}
+              </span>
+            )}
             {article.publishedAt && (
               <span className="date">
                 <i className="far fa-clock" style={{ color: "#1a73e8", marginRight: "5px" }}></i>
                 {new Date(article.publishedAt).toLocaleDateString("en-US")}
               </span>
             )}
+            {article.category && article.category.length > 0 && (
+              <span className="categories">
+                <i className="fas fa-tags" style={{ color: "#1a73e8", marginRight: "5px" }}></i>
+                {article.category.join(", ")}
+              </span>
+            )}
           </div>
-
 
           <Button
             size="small"
@@ -128,7 +124,8 @@ function NewsItem({ article }) {
         fullWidth
         PaperProps={{
           sx: {
-            color: "linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%)",
+            background: "linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%)",
+            color: "#fff",
             borderRadius: "15px",
             boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
             border: "1px solid rgba(74, 144, 226, 0.3)",

@@ -72,7 +72,7 @@ function IntroPage() {
             </a>
             <a href="https://science.nasa.gov/quantum-computing" target="_blank" rel="noopener noreferrer" style={styles.resourceLink}>
               <div style={styles.resourceCard}>
-                <h4>NASA&lsquo;s Quantum Computing Guide</h4>
+                <h4>NASA's Quantum Computing Guide</h4>
                 <p>Beginner-friendly introduction</p>
               </div>
             </a>
@@ -178,14 +178,21 @@ const styles = {
     background: '#ffffff',
     padding: '20px',
     borderRadius: '8px',
-    color: '#67C23A',
     boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
     border: '1px solid #e0e7ff',
     '&:hover': {
       transform: 'translateY(-5px)',
       boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
-    }
+    },
+    h4: {
+      color: '#2a5bd7',
+      marginBottom: '10px',
+    },
+    p: {
+      color: '#666666',
+      fontSize: '0.9em',
+    },
   },
 };
 

@@ -25,18 +25,13 @@ function NewsResult({ article }) {
           </a>
           
           <p className="description">
-            {article.abstract || 'No Content'}
+            {article.summary || article.description || '无摘要'}
           </p>
           
           <div className="meta">
-            {article.authors?.length > 0 && (
+            {article.author && (
               <span className="author">
-                <i className="fas fa-user" style={{ color: "#1a73e8", marginRight: "5px" }}></i>
-                {article.authors
-                  .slice(0, 5)
-                  .map((a) => a)
-                  .join(", ")}
-                {article.authors.length > 5 && " et al."}
+                <i className="fas fa-user"></i> {article.author}
               </span>
             )}
             {article.publishedAt && (

@@ -3,10 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+// import { ApolloProvider } from "@apollo/client";
+// import client from "../src/config/applloClient";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <App />
+
+      <App />
+
 );
 
 // If you want to start measuring performance in your app, pass a function

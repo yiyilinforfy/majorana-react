@@ -3,6 +3,7 @@ import NewsItem from "../components/NewsItem";
 import NewsResult from "../components/NewsResult";
 import "@/style/NewsPage.css";
 import { get } from "../utils/api";
+import { motion } from "framer-motion";
 
 function NewsPage() {
   const [articles, setArticles] = useState([]);
@@ -33,7 +34,11 @@ function NewsPage() {
       setTotalNews(totalNews);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching news:", error);
+      if (error.response?.status === 304) {
+        console.log("✅ News not modified, using cached data.");
+      } else {
+        console.error("Error fetching news:", error);
+      }
       setLoading(false);
     }
   };
@@ -135,35 +140,49 @@ function NewsPage() {
   };
 
   return (
-    <div>
+    <div style={styles.root}>
       <div style={styles.header}>
-        <h1 style={styles.mainTitle}>Latest Quantum Computing Articles</h1>
-        <p style={styles.subtitle}>
-          Exploring the Frontiers of Quantum Computing
-        </p>
-        <div style={styles.scrollIndicator}>
-          <i className="fas fa-chevron-down" style={styles.scrollArrow}></i>
-        </div>
-        <div style={styles.gradientOverlay}></div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 style={styles.mainTitle}>Latest Quantum Computing Articles</h1>
+          <p style={styles.subtitle}>
+            Exploring the Frontiers of Quantum Computing
+          </p>
+          {/* <div style={styles.scrollIndicator}>
+            <i className="fas fa-chevron-down" style={styles.scrollArrow}></i>
+          </div> */}
+        </motion.div>
+        {/* <div style={styles.gradientOverlay}></div> */}
       </div>
 
       <div style={styles.content}>
         <div style={styles.searchSection}>
-          <button
+          <motion.button
             onClick={() => setShowSearchDialog(true)}
             style={styles.searchButton}
+            whileHover={{ scale: 1.05, boxShadow: "0 6px 15px rgba(42, 91, 215, 0.3)" }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
             Search News
-          </button>
+          </motion.button>
         </div>
-{/* 
-        <div style={styles.currentPageIndicator}>
-          Page {currentPage} of {totalPages}
-        </div> */}
 
         {showSearchDialog && (
-          <div style={styles.searchOverlay}>
-            <div style={styles.searchDialog}>
+          <motion.div
+            style={styles.searchOverlay}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div
+              style={styles.searchDialog}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
               <div style={styles.searchHeader}>
                 <h2 style={styles.searchTitle}>Search News</h2>
                 <button
@@ -205,18 +224,25 @@ function NewsPage() {
                         Found {searchResults.length} results
                       </p>
                       <ul style={styles.newsList}>
-                        {searchResults.map((article) => (
-                          <NewsResult key={article.url} article={article} />
+                        {searchResults.map((article, index) => (
+                          <motion.div
+                            key={article.url}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                          >
+                            <NewsResult article={article} />
+                          </motion.div>
                         ))}
                       </ul>
                     </>
                   ) : searchQuery ? (
-                    <p style={styles.noResults}>No results found</p>
+                    <p style={styles.noResults}></p>
                   ) : null}
                 </div>
               )}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
 
         {loading ? (
@@ -227,8 +253,15 @@ function NewsPage() {
         ) : (
           <div style={styles.newsSection}>
             <ul style={styles.newsList}>
-              {articles.map((article) => (
-                <NewsItem key={article.url} article={article} />
+              {articles.map((article, index) => (
+                <motion.div
+                  key={article.url}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <NewsItem article={article} />
+                </motion.div>
               ))}
             </ul>
 
@@ -290,11 +323,19 @@ function NewsPage() {
 }
 
 const styles = {
-  header: {
-    backgroundImage: "url('/background/articles.jpg')",
+  root: {
+    minHeight: "60vh",
+    backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.85)), url('/background/articles.jpg')",
     backgroundSize: "cover",
     backgroundPosition: "center",
-    height: "60vh", // 减小高度
+    backgroundAttachment: "fixed",
+    transition: "background-image 0.5s ease-in-out", // Smooth background transition
+  },
+  header: {
+    // backgroundImage: "url('/background/articles.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    height: "clamp(40vh, 60vh, 70vh)", // Responsive hero height
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -302,6 +343,7 @@ const styles = {
     color: "#fff",
     textAlign: "center",
     position: "relative",
+    padding: "clamp(1rem, 5vw, 2rem)", // Responsive padding
   },
   gradientOverlay: {
     position: "absolute",
@@ -312,115 +354,132 @@ const styles = {
     background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)",
   },
   mainTitle: {
-    fontSize: "48px",
-    fontWeight: "700",
-    marginBottom: "20px",
-    textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+    fontSize: "clamp(1.8rem, 5vw, 3rem)", // Responsive font size
+    fontWeight: 700,
+    marginBottom: "clamp(0.5rem, 2vw, 1rem)", // Responsive margin
+    color: "#ffffff",
+    textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
   },
   subtitle: {
-    fontSize: "24px",
-    marginBottom: "0px",
+    fontSize: "clamp(1rem, 2.5vw, 1.3rem)", // Responsive font size
+    opacity: 0.9,
+    color: "#ffffff",
     textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
   },
   scrollIndicator: {
     position: "absolute",
-    bottom: "40px",
+    bottom: "clamp(1rem, 5vh, 2.5rem)", // Responsive bottom position
     animation: "bounce 2s infinite",
   },
   scrollArrow: {
-    fontSize: "24px",
+    fontSize: "clamp(1rem, 3vw, 1.5rem)", // Responsive arrow size
     color: "#fff",
   },
   content: {
-    backgroundColor: "#fff",
-    padding: "20px 20px",
+    background: "linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 150px)", // Smooth transition to white
+    padding: "clamp(1.5rem, 5vw, 2.5rem) clamp(1rem, 5vw, 1.5rem)", // Responsive padding
+    transition: "background 0.5s ease-in-out", // Smooth background transition
   },
   searchSection: {
     textAlign: "center",
-    marginBottom: "30px",
+    marginBottom: "clamp(1.5rem, 5vw, 2rem)", // Responsive margin
   },
   searchButton: {
-    backgroundColor: "#2a5bd7",
+    backgroundColor: "#1976d2",
     color: "#fff",
     border: "none",
-    padding: "15px 30px",
-    fontSize: "18px",
-    borderRadius: "30px",
+    padding: "clamp(0.5rem, 1.5vw, 0.8rem) clamp(0.8rem, 2vw, 1.2rem)", // Responsive padding
+    fontSize: "clamp(0.85rem, 1.5vw, 0.95rem)", // Responsive font size
+    borderRadius: "8px",
     cursor: "pointer",
-    transition: "transform 0.2s",
-    boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-  },
-  currentPageIndicator: {
-    textAlign: "center",
-    fontSize: "20px",
-    color: "#333",
-    margin: "20px 0",
-    fontWeight: "500",
+    transition: "background-color 0.2s ease",
+    "&:hover": {
+      backgroundColor: "#1565c0",
+    },
   },
   newsSection: {
-    maxWidth: "1200px",
+    maxWidth: "clamp(800px, 90vw, 1000px)", // Responsive container width
     margin: "0 auto",
     backgroundColor: "#fff",
-    borderRadius: "15px",
-    padding: "30px",
-    boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
+    borderRadius: "16px",
+    padding: "clamp(1.5rem, 5vw, 2rem)", // Responsive padding
+    boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
   },
   newsList: {
     listStyle: "none",
-    padding: "0",
-    margin: "0",
+    padding: 0,
+    margin: 0,
+    display: "flex",
+    flexDirection: "column",
+    gap: "clamp(1rem, 3vw, 1.5rem)", // Responsive gap
   },
   pagination: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    gap: "15px",
-    marginTop: "30px",
+    gap: "clamp(0.8rem, 2vw, 1rem)", // Responsive gap
+    marginTop: "clamp(1.5rem, 5vw, 2rem)", // Responsive margin
     flexWrap: "wrap",
   },
   pageButton: {
-    backgroundColor: "#2a5bd7",
+    backgroundColor: "#1976d2",
     color: "#fff",
     border: "none",
-    padding: "10px 20px",
-    borderRadius: "25px",
+    padding: "clamp(0.5rem, 1.5vw, 0.8rem) clamp(0.8rem, 2vw, 1.2rem)", // Responsive padding
+    borderRadius: "8px",
     cursor: "pointer",
-    fontSize: "16px",
-    transition: "background-color 0.3s",
+    fontSize: "clamp(0.85rem, 1.5vw, 0.95rem)", // Responsive font size
+    transition: "background-color 0.2s ease",
+    "&:hover": {
+      backgroundColor: "#1565c0",
+    },
+  },
+  disabledButton: {
+    backgroundColor: "#cccccc",
+    cursor: "not-allowed",
   },
   pageNumber: {
     backgroundColor: "#fff",
-    color: "#2a5bd7",
-    border: "2px solid #2a5bd7",
-    padding: "8px 15px",
-    borderRadius: "20px",
+    color: "#1976d2",
+    border: "2px solid #1976d2",
+    padding: "clamp(0.4rem, 1vw, 0.6rem) clamp(0.8rem, 2vw, 1rem)", // Responsive padding
+    borderRadius: "8px",
     cursor: "pointer",
     transition: "all 0.3s",
+    fontSize: "clamp(0.85rem, 1.5vw, 0.95rem)", // Responsive font size
+    "&:hover": {
+      backgroundColor: "#1976d2",
+      color: "#fff",
+    },
   },
   activePageNumber: {
-    backgroundColor: "#2a5bd7",
+    backgroundColor: "#1976d2",
     color: "#fff",
   },
   jumpToContainer: {
     display: "flex",
-    gap: "10px",
+    gap: "clamp(0.5rem, 1.5vw, 0.8rem)", // Responsive gap
     alignItems: "center",
   },
   jumpToInput: {
-    width: "70px",
-    padding: "8px",
-    borderRadius: "20px",
-    border: "2px solid #2a5bd7",
+    width: "clamp(50px, 10vw, 70px)", // Responsive width
+    padding: "clamp(0.4rem, 1vw, 0.6rem)", // Responsive padding
+    borderRadius: "8px",
+    border: "2px solid #1976d2",
     textAlign: "center",
-    fontSize: "14px",
+    fontSize: "clamp(0.85rem, 1.5vw, 0.95rem)", // Responsive font size
   },
   jumpToButton: {
-    backgroundColor: "#2a5bd7",
+    backgroundColor: "#1976d2",
     color: "#fff",
     border: "none",
-    padding: "8px 15px",
-    borderRadius: "20px",
+    padding: "clamp(0.4rem, 1vw, 0.6rem) clamp(0.8rem, 2vw, 1rem)", // Responsive padding
+    borderRadius: "8px",
     cursor: "pointer",
+    fontSize: "clamp(0.85rem, 1.5vw, 0.95rem)", // Responsive font size
+    "&:hover": {
+      backgroundColor: "#1565c0",
+    },
   },
   searchOverlay: {
     position: "fixed",
@@ -436,104 +495,96 @@ const styles = {
   },
   searchDialog: {
     backgroundColor: "#fff",
-    borderRadius: "20px",
-    padding: "30px",
+    borderRadius: "16px",
+    padding: "clamp(1rem, 3vw, 1.5rem)", // Responsive padding
     width: "90%",
-    maxWidth: "1200px",
+    maxWidth: "clamp(800px, 90vw, 1000px)", // Responsive width
     maxHeight: "80vh",
     overflow: "auto",
+    boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
   },
   searchHeader: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "20px",
+    marginBottom: "clamp(0.8rem, 2vw, 1rem)", // Responsive margin
   },
   searchTitle: {
     margin: 0,
-    fontSize: "24px",
-    color: "#333",
+    fontSize: "clamp(1rem, 2.5vw, 1.2rem)", // Responsive font size
+    fontWeight: 600,
+    color: "#2c3e50",
   },
   closeButton: {
     background: "none",
     border: "none",
-    fontSize: "24px",
+    fontSize: "clamp(1rem, 2.5vw, 1.2rem)", // Responsive font size
     color: "#666",
     cursor: "pointer",
     padding: "5px",
+    "&:hover": {
+      color: "#1976d2",
+    },
   },
   searchInputContainer: {
     display: "flex",
-    gap: "10px",
-    marginBottom: "20px",
+    gap: "clamp(0.5rem, 1.5vw, 0.8rem)", // Responsive gap
+    marginBottom: "clamp(0.8rem, 2vw, 1rem)", // Responsive margin
   },
   searchInput: {
     flex: 1,
-    padding: "12px 20px",
-    fontSize: "16px",
+    padding: "clamp(0.5rem, 1.5vw, 0.8rem) clamp(0.8rem, 2vw, 1rem)", // Responsive padding
+    fontSize: "clamp(0.85rem, 1.5vw, 0.95rem)", // Responsive font size
     border: "2px solid #ddd",
-    borderRadius: "25px",
+    borderRadius: "8px",
     outline: "none",
+    color: "#2c3e50",
   },
   searchSubmitButton: {
-    backgroundColor: "#2a5bd7",
+    backgroundColor: "#1976d2",
     color: "#fff",
     border: "none",
-    padding: "12px 25px",
-    borderRadius: "25px",
+    padding: "clamp(0.5rem, 1.5vw, 0.8rem) clamp(0.8rem, 2vw, 1.2rem)", // Responsive padding
+    borderRadius: "8px",
     cursor: "pointer",
-    fontSize: "16px",
+    fontSize: "clamp(0.85rem, 1.5vw, 0.95rem)", // Responsive font size
+    "&:hover": {
+      backgroundColor: "#1565c0",
+    },
   },
   loadingContainer: {
     textAlign: "center",
-    padding: "20px",
+    padding: "clamp(1rem, 3vw, 1.5rem)", // Responsive padding
   },
   loadingSpinner: {
-    width: "40px",
-    height: "40px",
+    width: "clamp(1.5rem, 5vw, 2rem)", // Responsive spinner size
+    height: "clamp(1.5rem, 5vw, 2rem)", // Responsive spinner size
     border: "4px solid #f3f3f3",
-    borderTop: "4px solid #2a5bd7",
+    borderTop: "4px solid #1976d2",
     borderRadius: "50%",
     animation: "spin 1s linear infinite",
     margin: "0 auto",
   },
   loadingText: {
-    marginTop: "10px",
+    marginTop: "clamp(0.5rem, 1.5vw, 0.8rem)", // Responsive margin
     color: "#666",
-    fontSize: "16px",
+    fontSize: "clamp(0.85rem, 1.5vw, 0.95rem)", // Responsive font size
   },
   searchResults: {
-    marginTop: "20px",
+    marginTop: "clamp(0.8rem, 2vw, 1rem)", // Responsive margin
   },
   paginationInfo: {
     textAlign: "center",
     color: "#666",
-    margin: "20px 0",
+    margin: "clamp(1rem, 3vw, 1.5rem) 0", // Responsive margin
+    fontSize: "clamp(0.85rem, 1.5vw, 0.95rem)", // Responsive font size
   },
   noResults: {
     textAlign: "center",
     color: "#666",
-    fontSize: "16px",
-    padding: "20px",
+    fontSize: "clamp(0.85rem, 1.5vw, 0.95rem)", // Responsive font size
+    padding: "clamp(1rem, 3vw, 1.5rem)", // Responsive padding
   },
 };
-
-const keyframes = `
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-      transform: translateY(0);
-    }
-    40% {
-      transform: translateY(-30px);
-    }
-    60% {
-      transform: translateY(-15px);
-    }
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-`;
 
 export default NewsPage;

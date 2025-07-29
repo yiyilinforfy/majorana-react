@@ -1,232 +1,252 @@
-import { color } from "framer-motion";
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Header() {
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  const handleMouseEnter = (menu) => {
-    setActiveDropdown(menu);
+  // 切换移动端菜单
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleMouseLeave = () => {
-    setActiveDropdown(null);
-  };
+  // 检查当前路由是否激活
+  const isActive = (path) => location.pathname === path;
 
-  const isActive = (path) => {
-    return location.pathname === path;
+  // 移动端外部链接点击处理
+  const handleExternalClick = (event, url) => {
+    event.preventDefault();
+    console.log(`Opening external URL: ${url}`);
+    window.open(url, "_blank", "noopener,noreferrer");
+    setTimeout(() => setIsMobileMenuOpen(false), 100);
   };
 
   return (
-    <nav style={styles.nav}>
-      <div style={styles.logoContainer}>
-        <Link to="/" style={styles.logoLink}>
-          <div style={styles.logoWrapper}>
-            <img src="/logo.jpg" alt="Majorana Logo" style={styles.logo} />
-            <span style={styles.siteName}>Majorana Lab</span>
+    <nav className="bg-black bg-opacity-90 backdrop-blur-md sticky top-0 z-50 shadow-[0_4px_20px_rgba(0,212,255,0.1)] border-b border-cyan-500/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center py-4">
+          {/* Logo */}
+          <div className="flex items-center flex-shrink-0">
+            <a
+              href="/"
+              className="flex items-center z-1000"
+            >
+              <img src="/logo.jpg" alt="Majorana Logo" className="h-9 w-auto" />
+              <span
+                className="ml-3 text-2xl font-extrabold uppercase tracking-wider font-['Orbitron']"
+                style={{
+                  background: "linear-gradient(45deg, #00d4ff, #7b2cbf)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  textShadow: "0 0 10px rgba(0, 212, 255, 0.4)",
+                }}
+              >
+                Majorana Lab
+              </span>
+            </a>
+
+                      {/* PC 端导航 */}
+            <ul className="hidden md:flex ml-10 space-x-6 items-center">
+              {/* Learn 菜单 */}
+              <li className="relative group">
+                <span className="text-white text-lg font-semibold flex items-center px-4 py-2 rounded-lg cursor-pointer hover:bg-cyan-500/15 hover:text-cyan-300 transition-colors duration-200">
+                  Learn
+                  <span className="ml-1.5 text-xs text-indigo-200 group-hover:text-cyan-300">
+                    ▼
+                  </span>
+                </span>
+                <div className="absolute top-full left-0 bg-gray-800/95 shadow-[0_6px_20px_rgba(0,212,255,0.2)] rounded-lg py-2 min-w-[220px] border border-cyan-500/20 hidden group-hover:block">
+                  <a
+                    href="/intro"
+                    className={`block w-full z-1000 text-left px-5 py-3 text-white text-sm font-medium hover:bg-cyan-500/20 hover:text-cyan-300 transition-colors duration-200 ${
+                      isActive("/intro") ? "bg-cyan-500/25 text-cyan-300 font-bold" : ""
+                    }`}
+                  >
+                    What is Majorana?
+                  </a>
+                  <a
+                    href="/resources"
+                    className={`block w-full z-1000 text-left px-5 py-3 text-white text-sm font-medium hover:bg-cyan-500/20 hover:text-cyan-300 transition-colors duration-200 ${
+                      isActive("/resources") ? "bg-cyan-500/25 text-cyan-300 font-bold" : ""
+                    }`}
+                  >
+                    Get-Started Resources
+                  </a>
+                </div>
+              </li>
+              {/* Community 菜单 */}
+              <li className="relative group">
+                <span className="text-white text-lg font-semibold flex items-center px-4 py-2 rounded-lg cursor-pointer hover:bg-cyan-500/15 hover:text-cyan-300 transition-colors duration-200">
+                  Community
+                  <span className="ml-1.5 text-xs text-indigo-200 group-hover:text-cyan-300">
+                    ▼
+                  </span>
+                </span>
+                <div className="absolute top-full left-0 bg-gray-800/95 shadow-[0_6px_20px_rgba(0,212,255,0.2)] rounded-lg py-2 min-w-[220px] border border-cyan-500/20 hidden group-hover:block">
+                  <button
+                  type="button"
+                    onClick={(e) =>
+                      handleExternalClick(
+                        e,
+                        "https://forum.zebi.ai/category/5/majorana-quantum-computing"
+                      )
+                    }
+                    className="block z-1000 w-full text-left px-5 py-3 text-white text-sm font-medium hover:bg-cyan-500/20 hover:text-cyan-300 transition-colors duration-200"
+                  >
+                    Majorana Lab Forum
+                    <i className="fa-solid fa-arrow-up-right-from-square ml-1 text-xs" />
+                  </button>
+                  <button
+                  type="button"
+                    onClick={(e) => handleExternalClick(e, "https://x.com/halotss")}
+                    className="block w-full z-1000 text-left px-5 py-3 text-white text-sm font-medium hover:bg-cyan-500/20 hover:text-cyan-300 transition-colors duration-200"
+                  >
+                    Our Twitter
+                    <i className="fa-solid fa-arrow-up-right-from-square ml-1 text-xs" />
+                  </button>
+                </div>
+              </li>
+              {/* News 菜单 */}
+              <li className="relative group">
+                <span className="text-white text-lg font-semibold flex items-center px-4 py-2 rounded-lg cursor-pointer hover:bg-cyan-500/15 hover:text-cyan-300 transition-colors duration-200">
+                  News
+                  <span className="ml-1.5 text-xs text-indigo-200 group-hover:text-cyan-300">
+                    ▼
+                  </span>
+                </span>
+                <div className="absolute top-full left-0 bg-gray-800/95 shadow-[0_6px_20px_rgba(0,212,255,0.2)] rounded-lg py-2 min-w-[220px] border border-cyan-500/20 hidden group-hover:block">
+                  <a
+                    href="/news"
+                    className={`block w-full z-1000 text-left px-5 py-3 text-white text-sm font-medium hover:bg-cyan-500/20 hover:text-cyan-300 transition-colors duration-200 ${
+                      isActive("/news") ? "bg-cyan-500/25 text-cyan-300 font-bold" : ""
+                    }`}
+                  >
+                    Latest News
+                  </a>
+                  <a
+                    href="/articles"
+                    className={`block w-full z-1000 text-left px-5 py-3 text-white text-sm font-medium hover:bg-cyan-500/20 hover:text-cyan-300 transition-colors duration-200 ${
+                      isActive("/articles") ? "bg-cyan-500/25 text-cyan-300 font-bold" : ""
+                    }`}
+                  >
+                    Research Articles
+                  </a>
+                </div>
+              </li>
+            </ul>
           </div>
-        </Link>
 
-        <ul style={styles.navList}>
-          <li 
-            style={styles.navItem} 
-            onMouseEnter={() => handleMouseEnter('learn')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <span style={styles.link}>
-              Learn
-              <span style={styles.dropdownArrow}>▼</span>
-            </span>
-            {activeDropdown === 'learn' && (
-              <div style={styles.dropdown}>
-                <Link to="/intro" style={{
-                  ...styles.dropdownItem,
-                  ...(isActive('/intro') && styles.activeDropdownItem)
-                }}>
-                 What is Majorana?
-                </Link>
-                <Link to="/resources" style={{
-                  ...styles.dropdownItem,
-                  ...(isActive('/resources') && styles.activeDropdownItem)
-                }}>
-                 Get-Started Resources
-                </Link>   
-              </div>
-            )}
-          </li>
+          {/* 汉堡菜单按钮（移动端） */}
+          <div className="md:hidden">
+            <button
+            type="button"
+              onClick={toggleMobileMenu}
+              className="text-cyan-400 hover:text-cyan-300 focus:outline-none z-1000"
+              aria-label="Toggle menu"
+            >
+              <svg
+                className="w-8 h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d={
+                    isMobileMenuOpen
+                      ? "M6 18L18 6M6 6l12 12"
+                      : "M4 6h16M4 12h16M4 18h16"
+                  }
+                />
+              </svg>
+            </button>
+          </div>
 
-          <li 
-            style={styles.navItem}
-            onMouseEnter={() => handleMouseEnter('community')}
-            onMouseLeave={handleMouseLeave}
+
+          {/* Twitter 图标（PC 端） */}
+          <button
+          type="button"
+            onClick={(e) => handleExternalClick(e, "https://x.com/halotss")}
+            className="hidden md:flex items-center ml-5 z-1000"
+            title="Follow us on X (Twitter)"
           >
-            <span style={styles.link}>
-              Community
-              <span style={styles.dropdownArrow}>▼</span>
-            </span>
-            {activeDropdown === 'community' && (
-              <div style={styles.dropdown}>
-                <Link to="/forum" style={{
-                  ...styles.dropdownItem,
-                  ...(isActive('/forum') && styles.activeDropdownItem)
-                }}>Majorana Lab Forum</Link>
-                <a href="https://x.com/halotss" target="_blank" rel="noopener noreferrer" style={styles.dropdownItem}>
-                  Our Twitter
-                  <i className="fa-solid fa-arrow-up-right-from-square" style={{marginLeft: '4px', fontSize: '0.8em'}}></i>
+            <i className="fa-brands fa-x-twitter text-indigo-200 text-2xl hover:text-cyan-300 hover:scale-110 transition-transform duration-200" />
+          </button>
+        </div>
+
+        {/* 移动端导航 */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden">
+            <ul className="flex flex-col space-y-2 py-4">
+              <li>
+                <a
+                  type="button"
+                  href="/intro"
+                  className={`block w-full z-1000 text-left px-4 py-2 text-white text-lg font-semibold hover:bg-cyan-500/15 hover:text-cyan-300 transition-colors duration-200 ${
+                    isActive("/intro") ? "bg-cyan-500/25 text-cyan-300 font-bold" : ""
+                  }`}
+                >
+                  What is Majorana?
                 </a>
-              </div>
-            )}
-          </li>
-
-          <li 
-            style={styles.navItem}
-            onMouseEnter={() => handleMouseEnter('news')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <span style={styles.link}>
-              News
-              <span style={styles.dropdownArrow}>▼</span>
-            </span>
-            {activeDropdown === 'news' && (
-              <div style={styles.dropdown}>
-                <Link to="/articles" style={{
-                  ...styles.dropdownItem,
-                  ...(isActive('/articles') && styles.activeDropdownItem)
-                }}>All Articles</Link>
-                {/* <Link to="/today-on-x" style={styles.dropdownItem}>Today on X</Link> */}
-              </div>
-            )}
-          </li>
-        </ul>
+                <a
+                  href="/resources"
+                  className={`block w-full z-1000 text-left px-4 py-2 text-white text-lg font-semibold hover:bg-cyan-500/15 hover:text-cyan-300 transition-colors duration-200 ${
+                    isActive("/resources") ? "bg-cyan-500/25 text-cyan-300 font-bold" : ""
+                  }`}
+                >
+                  Get-Started Resources
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/news"
+                  className={`block w-full z-1000 text-left px-4 py-2 text-white text-lg font-semibold hover:bg-cyan-500/15 hover:text-cyan-300 transition-colors duration-200 ${
+                    isActive("/news") ? "bg-cyan-500/25 text-cyan-300 font-bold" : ""
+                  }`}
+                >
+                  Latest News
+                </a>
+                <a
+                  href="/articles"
+                  className={`block w-full z-1000 text-left px-4 py-2 text-white text-lg font-semibold hover:bg-cyan-500/15 hover:text-cyan-300 transition-colors duration-200 ${
+                    isActive("/articles") ? "bg-cyan-500/25 text-cyan-300 font-bold" : ""
+                  }`}
+                >
+                  Research Articles
+                </a>
+              </li>
+              <li>
+                <button
+                type="button"
+                  onClick={(e) =>
+                    handleExternalClick(
+                      e,
+                      "https://forum.zebi.ai/category/5/majorana-quantum-computing"
+                    )
+                  }
+                  className="block w-full z-1000 text-left px-4 py-2 text-white text-lg font-semibold hover:bg-cyan-500/15 hover:text-cyan-300 transition-colors duration-200"
+                >
+                  Majorana Lab Forum
+                  <i className="fa-solid fa-arrow-up-right-from-square ml-1 text-xs" />
+                </button>
+                <button
+                type="button"
+                  onClick={(e) => handleExternalClick(e, "https://x.com/halotss")}
+                  className="block w-full z-1000 text-left px-4 py-2 text-white text-lg font-semibold hover:bg-cyan-500/15 hover:text-cyan-300 transition-colors duration-200"
+                >
+                  Our Twitter
+                  <i className="fa-solid fa-arrow-up-right-from-square ml-1 text-xs" />
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
-      
-   
-
-      <a 
-        href="https://x.com/halotss" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        style={styles.twitterLink}
-        title="Follow us on X (Twitter)"
-      >
-        <i className="fa-brands fa-x-twitter" style={styles.twitterIcon}></i>
-      </a>
     </nav>
   );
 }
-
-const styles = {
-  nav: {
-    background: "rgb(243.9, 244.2, 244.8)",
-    padding: "20px 40px",
-    position: "sticky",
-    top: 0,
-    zIndex: 1000,
-    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  logoContainer: {
-    flexShrink: 0,
-    display: "flex",
-    alignItems: "center",
-  },
-  logoLink: {
-    textDecoration: "none",
-    display: "flex",
-    alignItems: "center",
-  },
-  logoWrapper: {
-    display: "flex",
-    alignItems: "center",
-  },
-  logo: {
-    height: "30px",
-    width: "auto",
-    display: "block",
-  },
-  siteName: {
-    color: "black",
-    fontSize: "22px",
-    fontWeight: "700",
-    marginLeft: "12px",
-    textTransform: "uppercase",
-    letterSpacing: "1px",
-    fontFamily: "'Helvetica Neue', Arial, sans-serif",
-  },
-  navList: {
-    listStyle: "none",
-    display: "flex",
-    margin: 0,
-    marginLeft: '40px',
-    padding: 0,
-    gap: "10px",
-  },
-  navItem: {
-    display: "flex",
-    alignItems: "center",
-    position: "relative",
-  },
-  link: {
-    textDecoration: "none",
-    color: "#2a5bd7",
-    fontSize: "18px",
-    fontWeight: "700",
-    padding: "8px 12px",
-    borderRadius: "6px",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease, color 0.3s ease",
-    display: "flex",
-    alignItems: "center",
-    fontFamily: "'Roboto', sans-serif",
-  },
-  dropdownArrow: {
-    fontSize: "10px",
-    marginLeft: "5px",
-    color: "#2a5bd7",
-  },
-  dropdown: {
-    position: "absolute",
-    top: "100%",
-    left: "0",
-    background: "white",
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-    borderRadius: "8px",
-    padding: "8px 0",
-    minWidth: "200px",
-    zIndex: 1001,
-  },
-  dropdownItem: {
-    display: "block",
-    padding: "10px 16px",
-    color: "black",
-    textDecoration: "none",
-    fontSize: "13px",
-    transition: "background-color 0.2s ease",
-    "&:hover": {
-      backgroundColor: "#f5f8ff",
-    },
-  },
-  activeDropdownItem: {
-    backgroundColor: "#f5f8ff",
-    color: "#2a5bd7",
-    fontWeight: "bold",
-  },
-  twitterLink: {
-    display: "flex",
-    alignItems: "center",
-    marginLeft: "20px",
-  },
-  twitterIcon: {
-    fontSize: "24px",
-    color: "black",
-    transition: "opacity 0.2s ease",
-    "&:hover": {
-      opacity: 0.8,
-    },
-  },
-};
 
 export default Header;

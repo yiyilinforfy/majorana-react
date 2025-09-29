@@ -1,0 +1,21 @@
+
+name: VKube CI/CD
+on:
+  push:
+	branches: [ "main" ]
+  pull_request:
+	branches: [ "main" ]
+jobs:
+  build-and-deploy:
+	runs-on: ubuntu-latest
+	steps:
+	  - uses: actions/checkout@v3
+	  
+	  - name: Setup VKube CLI
+		run: echo "Pretending to install vkube-cli..."
+
+	  - name: Deploy with VKube
+		env:
+		  VKUBE_SERVICE_SECRET: ${{ secrets.VKUBE_SECRET }}
+		run: |
+		  echo "Running vkube deploy..."	

@@ -1,0 +1,14 @@
+Kind: vkube
+vkubeToken: 38KZHfS1S5CUr4WJshNJgCvRtmQhoWpdLhpMDhB2mgvqrJTxKpwuXvrEVTNB5kYp1oYtw5spj3GHVBEAd1aKA5TJWJSuouDEZgDSb3JHj7Nt2ZwnhTDaVBa7AJ6Fv1VpX9KWkhHTp5GdF4zKgDD2or4MMsv4YJTghg8KK6HynMh66oGkytNrrDY8PJRDw1cQ2myRrcqPBHu6ChZXD4MX8aZGH5YiUXnxSNd5dLErDNV3DFy5Hvy2iQeZb8muZ7MxVz4C7NNKJzbb4F7RRPGYznLA75PGBiX6bHDtov5H6cSw9WNSubsUCBcHQmYh1fuN2hYzrZgigVUajCEDtbGPxiPpQ99EEkzDH9w8MAJPwwSn2Mxt7EnWGiLBZNjt3ZCoJK9qzPDK9kvSQy
+imageRegistry: docker
+containers:
+  - registryImagePath: 'nginx:1'
+    deploy:
+      containerName: conn
+      resourceUnit: 1
+      command: []
+      ports: []
+      env: []
+      args: []
+      configurations: {}
+      persistStorage: ''
